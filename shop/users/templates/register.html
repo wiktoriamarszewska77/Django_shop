@@ -6,7 +6,8 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Registration!</legend>
-                {{ form.as_p }}
+                {{ user_form.as_p }}
+                {{ company_form.as_p }}
                 <p class="text-center">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
             </fieldset>
             <div class="form-group">
