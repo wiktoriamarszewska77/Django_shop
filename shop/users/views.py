@@ -16,8 +16,13 @@ class RegisterView(View):
         user_form = RegisterForm(request.POST)
         company_form = CompanyForm(request.POST)
         if user_form.is_valid() and company_form.is_valid():
-            user_form.save()
-            company_form.save(commit=False)
+            if company_form.cleaned_data.get('nip'):
+                user = user_form.save()
+                company = company_form.save(commit=False)
+                company.user = user
+                company.save()
+            else:
+                user_form.save()
             return redirect('login')
         else:
             user_form = RegisterForm()
