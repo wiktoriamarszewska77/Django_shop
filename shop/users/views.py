@@ -1,25 +1,28 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import User
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, CompanyForm
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
 
 class RegisterView(View):
     def get(self, request):
-        form = RegisterForm()
-        return render(request, template_name='register.html', context={'form': form})
+        user_form = RegisterForm()
+        company_form = CompanyForm()
+        return render(request, template_name='register.html', context={'user_form': user_form, 'company_form': company_form})
 
     def post(self, request):
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+        user_form = RegisterForm(request.POST)
+        company_form = CompanyForm(request.POST)
+        if user_form.is_valid() and company_form.is_valid():
+            user_form.save()
+            company_form.save(commit=False)
             return redirect('login')
         else:
-            form = RegisterForm()
-        return render(request, template_name='register.html', context={'form': form})
+            user_form = RegisterForm()
+            company_form = CompanyForm()
+        return render(request, template_name='register.html', context={'user_form': user_form, 'company_form': company_form})
 
 @login_required()
 def profile_view(request):
