@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
     <h1> Hello {{ user.username }} </h1>
-</body>
-</html>
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form_group">
+            <legend class="border-bottom mb4">Profile info!</legend>
+            {{ user_form|crispy }}
+            {{ company_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+{% endblock %}
