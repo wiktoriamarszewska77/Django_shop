@@ -16,7 +16,14 @@ class CompanyForm(forms.ModelForm):
         fields = ['nip']
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput())
+class UserProfileForm(forms.ModelForm):
+    email = forms.EmailField()
 
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone', 'address']
+
+class CompanyProfileForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['name', 'nip']
