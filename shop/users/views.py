@@ -4,7 +4,7 @@ from .models import User
 from .forms import RegisterForm, CompanyForm, UserProfileForm, CompanyProfileForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.contrib import messages
 
 class RegisterView(View):
     def get(self, request):
@@ -21,12 +21,15 @@ class RegisterView(View):
                 company = company_form.save(commit=False)
                 company.user = user
                 company.save()
+                messages.success(request, 'You have been registered as a company!')
             else:
                 user_form.save()
+                messages.success(request, 'You have been registered as a user!')
             return redirect('login')
         else:
             user_form = RegisterForm()
             company_form = CompanyForm()
+            messages.warning(request, 'Incorrect data, try again!')
         return render(request, template_name='register.html', context={'user_form': user_form, 'company_form': company_form})
 
 
@@ -53,6 +56,7 @@ class ProfileView(View):
 
         if user_form.is_valid():
             user_form.save()
+            messages.success(request, 'Data updated!')
             if company_form and company_form.is_valid():
                 company_form.save()
             return redirect('profile')
