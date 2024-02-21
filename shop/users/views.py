@@ -46,11 +46,11 @@ class ProfileView(View):
         return render(request, 'profile.html', context={'user_form': user_form, 'company_form': company_form})
 
     def post(self, request):
-        user_form = UserProfileForm(request.POST, instance=request.user)
+        user_form = UserProfileForm(request.POST,request.FILES,instance=request.user)
 
         if hasattr(request.user, 'company'):
             company = request.user.company
-            company_form = CompanyProfileForm(request.POST, instance=company)
+            company_form = CompanyProfileForm(request.POST, request.FILES, instance=company)
         else:
             company_form = None
 
