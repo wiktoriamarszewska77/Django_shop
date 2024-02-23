@@ -1,0 +1,7 @@
+django
+psycopg2==2.9.9
+psycopg2-binary==2.9.9
+Pillow
+bootstrap4
+crispy-bootstrap4
+python-dotenv
