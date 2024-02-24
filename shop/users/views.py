@@ -6,11 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 
+
 class RegisterView(View):
     def get(self, request):
         user_form = RegisterForm()
         company_form = CompanyForm()
-        return render(request, template_name='register.html', context={'user_form': user_form, 'company_form': company_form})
+        return render(request, template_name='register.html',
+                      context={'user_form': user_form, 'company_form': company_form})
 
     def post(self, request):
         user_form = RegisterForm(request.POST)
@@ -30,7 +32,8 @@ class RegisterView(View):
             user_form = RegisterForm()
             company_form = CompanyForm()
             messages.warning(request, 'Incorrect data, try again!')
-        return render(request, template_name='register.html', context={'user_form': user_form, 'company_form': company_form})
+        return render(request, template_name='register.html',
+                      context={'user_form': user_form, 'company_form': company_form})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -46,7 +49,7 @@ class ProfileView(View):
         return render(request, 'profile.html', context={'user_form': user_form, 'company_form': company_form})
 
     def post(self, request):
-        user_form = UserProfileForm(request.POST,request.FILES,instance=request.user)
+        user_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
 
         if hasattr(request.user, 'company'):
             company = request.user.company
@@ -62,4 +65,3 @@ class ProfileView(View):
             return redirect('profile')
 
         return render(request, 'profile.html', context={'user_form': user_form, 'company_form': company_form})
-

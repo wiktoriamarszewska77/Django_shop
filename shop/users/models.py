@@ -21,6 +21,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+
 class Company(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -28,4 +29,4 @@ class Company(models.Model):
     nip = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.user.username
+        return self.name
