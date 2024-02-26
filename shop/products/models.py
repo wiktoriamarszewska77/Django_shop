@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import Company
 from django.utils import timezone
+from django.urls import reverse
 
 class Product(models.Model):
     CATEGORY_CHOICES = (
@@ -22,6 +23,8 @@ class Product(models.Model):
     stock_quantity = models.PositiveIntegerField()
     available = models.BooleanField(default=True)
 
+    def get_absolute_url(self):
+        return reverse('product-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.name
