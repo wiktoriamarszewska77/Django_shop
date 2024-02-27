@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from users.models import Company
 
 
 
@@ -19,13 +20,15 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'detail_product.html'
 
-class ProductCreateView(CreateView, LoginRequiredMixin):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     template_name = 'add_product.html'
-    fields = ['seller', 'name', 'brand', 'category', 'price', 'data_added', 'description',
+    fields = ['name', 'brand', 'category', 'price', 'data_added', 'description',
               'image', 'stock_quantity', 'available']
 
     def form_valid(self, form):
-        form.instance.company = self.request.user
+        company = Company.objects.get(user=self.request.user)
+        form.instance.seller = company
         return super().form_valid(form)
+
 
