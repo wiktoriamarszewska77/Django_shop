@@ -17,17 +17,15 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product.html'
+    template_name = 'detail_product.html'
 
 class ProductCreateView(CreateView, LoginRequiredMixin):
     model = Product
     template_name = 'add_product.html'
-    fields = '__all__'
+    fields = ['seller', 'name', 'brand', 'category', 'price', 'data_added', 'description',
+              'image', 'stock_quantity', 'available']
 
     def form_valid(self, form):
         form.instance.company = self.request.user
         return super().form_valid(form)
 
-    def test_func(self):
-        product = self.get_object()
-        return self.request.user == product.seller
