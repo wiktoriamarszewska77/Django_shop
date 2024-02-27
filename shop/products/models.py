@@ -2,6 +2,7 @@ from django.db import models
 from users.models import Company
 from django.utils import timezone
 from django.urls import reverse
+from PIL import Image
 
 class Product(models.Model):
     CATEGORY_CHOICES = (
@@ -25,6 +26,16 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail-product', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img_product = Image.open(self.image.path)
+
+        if img_product.height > 400 or img_product.width > 400:
+            output_size = (400, 400)
+            img_product.thumbnail(output_size)
+            img_product.save(self.image.path)
 
     def __str__(self):
         return self.name
