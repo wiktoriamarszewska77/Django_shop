@@ -2,8 +2,8 @@ from django.shortcuts import render
 from .models import Product
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from users.models import Company
 
 
@@ -32,3 +32,18 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Product
+    template_name = 'add_product.html'
+    fields = ['name', 'brand', 'category', 'price', 'data_added', 'description',
+              'image', 'stock_quantity', 'available']
+
+    def form_valid(self, form):
+        company = Company.objects.get(user=self.request.user)
+        form.instance.seller = company
+        return super().form_valid(form)
+
+    def test_func(self):
+        product = self.get_object()
+        company = Company.objects.get(user=self.request.user)
+        return company == product.seller
