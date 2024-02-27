@@ -57,3 +57,15 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         product = self.get_object()
         company = Company.objects.get(user=self.request.user)
         return company == product.seller
+
+
+
+class CategoryProductListView(ListView):
+    model = Product
+    template_name = 'category.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category = self.kwargs['category']
+        return Product.objects.filter(category=category)
+
