@@ -9,7 +9,7 @@ repos:
     rev: 23.11.0
     hooks:
     -   id: black
-
+# ruff
 - repo: local
   hooks:
       - id: conventional-pre-commit
