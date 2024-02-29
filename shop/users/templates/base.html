@@ -170,12 +170,12 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Category</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Electronics</a></li>
-                        <li><a class="text-decoration-none" href="#">Fashion</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport</a></li>
-                        <li><a class="text-decoration-none" href="#">Kid</a></li>
-                        <li><a class="text-decoration-none" href="#">Automotive</a></li>
-                        <li><a class="text-decoration-none" href="#">Beauty</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'category-product' category='electronics' %}">Electronics</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'category-product' category='fashion' %}">Fashion</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'category-product' category='sport' %}">Sport</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'category-product' category='kid' %}">Kid</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'category-product' category='automotive' %}">Automotive</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'category-product' category='beauty' %}">Beauty</a></li>
                     </ul>
                 </div>
 
@@ -211,13 +211,6 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-auto">
-                    <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -233,11 +226,11 @@
     </footer>
     <!-- End Footer -->
 <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src=".static/js/jquery-1.11.0.min.js"></script>
+    <script src=".static/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src=".static/js/bootstrap.bundle.min.js"></script>
+    <script src=".static/js/templatemo.js"></script>
+    <script src=".static/js/custom.js"></script>
     <!-- End Script -->
 </body>
 </html>

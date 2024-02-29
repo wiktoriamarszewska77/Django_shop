@@ -12,7 +12,7 @@
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./assets/img/banner_img_01.jpg" alt="">
+                            <img class="img-fluid" src="./media/products_pics/banner01.jpg" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
@@ -82,19 +82,19 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+                <a href="{% url 'category-product' category='electronics' %}"><img src="./media/products_pics/electronics.jpg" class="rounded-circle img-fluid border"></a>
                 <h5 class="text-center mt-3 mb-3">Electronics</h5>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+                <p class="text-center"><a class="btn btn-success">Go</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+                <a href="{% url 'category-product' category='sport' %}"><img src="./media/products_pics/sport.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Sport</h2>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+                <p class="text-center"><a class="btn btn-success">Go</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
+                <a href="{% url 'category-product' category='fashion' %}"><img src="./media/products_pics/t-shirt.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Fashion</h2>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+                <p class="text-center"><a class="btn btn-success">Go</a></p>
             </div>
         </div>
     </section>
@@ -112,7 +112,7 @@
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop-single.html">
-                            <img src="./assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
+                            <img src="./media/products_pics/lego.jpg" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
@@ -123,12 +123,12 @@
                                     <i class="text-muted fa fa-star"></i>
                                     <i class="text-muted fa fa-star"></i>
                                 </li>
-                                <li class="text-muted text-right">$240.00</li>
+                                <li class="text-muted text-right">240.00</li>
                             </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Green cotton shirt</a>
+                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">LEGO Disney Hocus Pocus</a>
                             <p class="card-text">
-                                SIMONE men's shirt in an interesting green shade  with a smooth structure.
-                                The model is made of a high-quality blend of fabrics with cotton knit fabric, which guarantees extraordinary softness, airiness and lightness of the fabric.
+                                Capture the magic of the movie with the LEGO Ideas Disney Hocus Pocus: Sanderson's Cabin collectible set.
+                                The house can be opened in many ways to reveal interior details.
                             </p>
                             <p class="text-muted">Reviews (24)</p>
                         </div>
@@ -137,7 +137,7 @@
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop-single.html">
-                            <img src="./assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
+                            <img src="./media/products_pics/watch.jpg" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
@@ -148,7 +148,7 @@
                                     <i class="text-muted fa fa-star"></i>
                                     <i class="text-muted fa fa-star"></i>
                                 </li>
-                                <li class="text-muted text-right">$480.00</li>
+                                <li class="text-muted text-right">480.00</li>
                             </ul>
                             <a href="shop-single.html" class="h2 text-decoration-none text-dark">Smartband SAMSUNG Fit 3</a>
                             <p class="card-text">
@@ -163,7 +163,7 @@
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                         <a href="shop-single.html">
-                            <img src="./assets/img/feature_prod_03.jpg" class="card-img-top" alt="...">
+                            <img src="./media/products_pics/bike.jpg" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
                             <ul class="list-unstyled d-flex justify-content-between">
@@ -174,11 +174,12 @@
                                     <i class="text-warning fa fa-star"></i>
                                     <i class="text-warning fa fa-star"></i>
                                 </li>
-                                <li class="text-muted text-right">$360.00</li>
+                                <li class="text-muted text-right">1160.00</li>
                             </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Air Jordan 1 Mid</a>
+                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Bike INDIANA X-Pulser</a>
                             <p class="card-text">
-                                The Air Jordan 1 Mid shoes provide unique style, an air of legend and unrivaled comfort on the pitch.
+                                The INDIANA X-Pulser 1.6 mountain bike is the perfect choice for people who like an active lifestyle and like to spend time outdoors.
+                                This solid and reliable bike was designed for mountainous terrain and difficult conditions .
                             </p>
                             <p class="text-muted">Reviews (74)</p>
                         </div>
