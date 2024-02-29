@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>List of products</h1>
+<div class="products-container">
+  {% for product in products %}
+    <div class="product-item">
+      <div class="product-image">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+      </div>
+      <div class="product-details">
+          <h2><a class="product-name" href="{% url 'detail-product' product.id %}">{{ product.name }}</a></h2>
+        <p class="product-price">Price: {{ product.price }}</p>
+        <p class="product-seller">Seller: {{ product.seller }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+ {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page.obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}"> {{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }} </a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page{{ page_obj.next_page_number}}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page{{ page_obj.paginator.num_pages}}">Last</a>
+    {% endif %}
+{% endblock %}
