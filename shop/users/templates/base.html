@@ -65,7 +65,7 @@
                             <a class="nav-link" href="about.html">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="shop.html">Products</a>
+                            <a class="nav-link" <a href="{% url 'products-list' %}">Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="contact.html">Contact</a>
@@ -129,20 +129,22 @@
             </form>
         </div>
     </div>
-    <main role="main" class="container">
+<main role="main" class="container-fluid">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col">
             {% if messages %}
                 {% for message in messages %}
-                    <div class = "alert alert-{{ message.tags }}">
+                    <div class="alert alert-{{ message.tags }}">
                         {{ message }}
                     </div>
                 {% endfor %}
             {% endif %}
-            {% block content %}{% endblock %}
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
         </div>
     </div>
-    </main>
+</main>
  <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
             <div class="row">
