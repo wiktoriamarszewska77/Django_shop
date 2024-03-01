@@ -73,3 +73,12 @@ class CategoryProductListView(ListView):
     def get_queryset(self):
         category = self.kwargs['category']
         return Product.objects.filter(category=category)
+
+class BrandProductListView(ListView):
+    model = Product
+    template_name = 'brand.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        brand = self.kwargs['brand']
+        return Product.objects.filter(brand=brand)
