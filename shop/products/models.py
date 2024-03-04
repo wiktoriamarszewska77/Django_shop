@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.urls import reverse
 from PIL import Image
 
+
 class Product(models.Model):
     CATEGORY_CHOICES = (
         ('electronics', 'Electronics'),
@@ -39,4 +40,3 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-

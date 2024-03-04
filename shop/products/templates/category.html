@@ -1,12 +1,74 @@
 {% extends 'base.html' %}
 {% block content %}
-<body>
-<ul>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Brand</h1>
+            {% for product in products %}
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a href="{% url 'brand-product' product.brand %}" class="h3 text-decoration-none">{{ product.brand }}</a>
+                </li>
+            </ul>
+            {% endfor %}
+        </div>
+<div class="col-lg-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All products</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 pb-4">
+                    <div class="d-flex">
+                        <select class="form-control">
+                            <option>Featured</option>
+                            <option>A to Z</option>
+                            <option>Item</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
     {% for product in products %}
-    <h3>{{ product.name }}</h3>
-    <img src="{{ product.image.url }}">
-    <h3>Price: {{ product.price }}</h3>
+        <div class="col-md-4">
+            <div class="card mb-4 product-wap rounded-0">
+                <div class="card rounded-0">
+                    <img class="card-img rounded-0 img-fluid" src="{{ product.image.url }}">
+                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'detail-product' product.id %}" class="h3 text-decoration-none">{{ product.name }}</a>
+                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                        <li>{{ product.data_added }}</li>
+                        <li class="pt-2">
+                            <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled d-flex justify-content-center mb-1">
+                        <li>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-muted fa fa-star"></i>
+                            <i class="text-muted fa fa-star"></i>
+                        </li>
+                    </ul>
+                    <p class="text-center mb-0">{{ product.price }}</p>
+                </div>
+                <p class="text-center"><a class="btn btn-success" href="{% url 'detail-product' product.id %}">Look</a></p>
+            </div>
+        </div>
     {% endfor %}
-</ul>
-</body>
+        </div>
+    </div>
+</div>
+</div>
 {% endblock %}

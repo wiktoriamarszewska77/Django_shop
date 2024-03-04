@@ -5,12 +5,16 @@ from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from users.models import Company
+from django.views.generic import TemplateView
 
+
+class HomeView(TemplateView):
+    template_name = 'home.html'
 
 
 class ProductListView(ListView):
     model = Product
-    template_name = 'home.html'
+    template_name = 'products_list.html'
     context_object_name = 'products'
     ordering = ['-data_added']
     paginate_by = 4
@@ -19,6 +23,7 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'detail_product.html'
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
@@ -48,6 +53,7 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         company = Company.objects.get(user=self.request.user)
         return company == product.seller
 
+
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'delete_product.html'
@@ -59,7 +65,6 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return company == product.seller
 
 
-
 class CategoryProductListView(ListView):
     model = Product
     template_name = 'category.html'
@@ -69,3 +74,11 @@ class CategoryProductListView(ListView):
         category = self.kwargs['category']
         return Product.objects.filter(category=category)
 
+class BrandProductListView(ListView):
+    model = Product
+    template_name = 'brand.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        brand = self.kwargs['brand']
+        return Product.objects.filter(brand=brand)
