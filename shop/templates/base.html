@@ -81,6 +81,7 @@
                             {% csrf_token %}
                             <input type="hidden">
                         </form>
+                        <a class="nav-item nav-link" href="{% url 'basket' %}" target="_self"><img src="/media/basket.png"></a>
                         {% else %}
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                         <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
