@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView, CategoryProductListView, HomeView, BrandProductListView
-
-
-
-
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import (ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView,
+                    CategoryProductListView, HomeView, BrandProductListView)
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -14,4 +13,4 @@ urlpatterns = [
     path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='product-delete'),
     path('category/<str:category>/', CategoryProductListView.as_view(), name='category-product'),
     path('brand/<str:brand>/', BrandProductListView.as_view(), name='brand-product'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

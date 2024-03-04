@@ -1,16 +1,15 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'templatemo.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'custom.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -28,16 +27,17 @@
         <div class="container text-light">
             <div class="w-100 d-flex justify-content-between">
                 <div>
-                    <i class="fa fa-envelope mx-2"></i>
+                    <img src="/media/email.png">
                     <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:shop@django.com">shop@django.com</a>
-                    <i class="fa fa-phone mx-2"></i>
+                    <img src="/media/phone.png">
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:999-999-999">999-999-999</a>
+
                 </div>
                 <div>
-                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
+                    <a class="text-light" href="https://www.facebook.com/" target="_blank"><img src="/media/facebook.png" alt="Facebook Logo"></a>
+                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><img src="/media/instagram.png" alt="Instagram Logo"></a>
+                    <a class="text-light" href="https://www.twitter.com/" target="_blank"><img src="/media/twitter.png" alt="Twitter Logo"></a>
+                    <a class="content-link" href="https://www.linkedin.com/" target="_blank"><img src="/media/linkedin.png" alt="Linkedin Logo"></a>
                 </div>
             </div>
         </div>
@@ -65,22 +65,13 @@
                             <a class="nav-link" href="about.html">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" <a href="{% url 'products-list' %}">Products</a>
+                            <a class="nav-link"  href="{% url 'products-list' %}">Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="contact.html">Contact</a>
                         </li>
                     </ul>
                 </div>
-                <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
                         <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
@@ -95,22 +86,8 @@
                         <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                         {% endif %}
                     </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
-
-<!--                    <a class="nav-icon position-relative text-decoration-none" href="#">-->
-<!--                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>-->
-<!--                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>-->
-<!--                    </a>-->
-<!--                    <a class="nav-icon position-relative text-decoration-none" href="#">-->
-<!--                        <i class="fa fa-fw fa-user text-dark mr-3"></i>-->
-<!--                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>-->
-<!--                    </a>-->
                 </div>
             </div>
-
-        </div>
     </nav>
     <!-- Close Header -->
 <!-- Modal -->
@@ -153,15 +130,15 @@
                     <h2 class="h2 text-success border-bottom pb-3 border-light logo">Django Shop</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
-                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            <img src="/media/location.png">
                             W Carroll Ave, Chicago
                         </li>
                         <li>
-                            <i class="fa fa-phone fa-fw"></i>
+                            <img src="/media/phone.png">
                             <a class="text-decoration-none" href="tel:010-020-0340">999-999-999</a>
                         </li>
                         <li>
-                            <i class="fa fa-envelope fa-fw"></i>
+                            <img src="/media/email.png">
                             <a class="text-decoration-none" href="mailto:info@company.com">shop@django.com</a>
                         </li>
                     </ul>
@@ -198,16 +175,16 @@
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                            <a class="text-light" href="https://www.facebook.com/" target="_blank"><img src="/media/facebook.png" alt="Facebook Logo"></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                            <a class="content-link" href="https://www.instagram.com/" target="_blank"><img src="/media/instagram.png" alt="Instagram Logo"></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                            <a class="content-link" href="https://www.twitter.com/" target="_blank"><img src="/media/twitter.png" alt="Twitter Logo"></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                            <a class="content-link" href="https://www.linkedin.com/" target="_blank"><img src="/media/linkedin.png" alt="Linkedin Logo"></a>
                         </li>
                     </ul>
                 </div>
@@ -225,12 +202,5 @@
 
     </footer>
     <!-- End Footer -->
-<!-- Start Script -->
-    <script src=".static/js/jquery-1.11.0.min.js"></script>
-    <script src=".static/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src=".static/js/bootstrap.bundle.min.js"></script>
-    <script src=".static/js/templatemo.js"></script>
-    <script src=".static/js/custom.js"></script>
-    <!-- End Script -->
 </body>
 </html>

@@ -94,6 +94,7 @@
                     </ul>
                     <p class="text-center mb-0">{{ product.price }}</p>
                 </div>
+                <p class="text-center"><a class="btn btn-success" href="{% url 'detail-product' product.id %}">Look</a></p>
             </div>
         </div>
     {% endfor %}
