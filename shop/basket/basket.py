@@ -1,3 +1,5 @@
+from products.models import Product
+
 class Basket():
     def __init__(self, request):
         self.session = request.session
@@ -19,3 +21,9 @@ class Basket():
 
     def __len__(self):
         return len(self.basket)
+
+    def get_prods(self):
+        product_ids = self.basket.keys()
+
+        products = Product.objects.filter(id__in=product_ids)
+        return products

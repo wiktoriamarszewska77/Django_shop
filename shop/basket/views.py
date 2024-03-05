@@ -7,7 +7,9 @@ from django.http import JsonResponse
 
 
 def basket_summary(request):
-    return render(request, 'basket_summary.html', {})
+    basket = Basket(request)
+    basket_products = basket.get_prods
+    return render(request, 'basket_summary.html', {'basket_products': basket_products})
 
 
 
