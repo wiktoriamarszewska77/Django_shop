@@ -60,7 +60,7 @@
                                   <ul class="list-inline pb-3">
                                       <li class="list-inline-item text-right">
                                           Quantity
-                                          <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                          <input type="hidden" name="product-quanity" id="qty-basket" value="1">
                                       </li>
                                       <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
                                       <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
@@ -78,6 +78,23 @@
           </div>
 </section>
 <script>
+$(document).ready(function() {
+    $('#btn-plus').on('click', function() {
+        var currentValue = parseInt($('#var-value').text());
+        var newValue = currentValue + 1;
+        $('#var-value').text(newValue);
+        $('#qty-basket').val(newValue);
+    });
+
+    $('#btn-minus').on('click', function() {
+        var currentValue = parseInt($('#var-value').text());
+        if (currentValue > 1) {
+            var newValue = currentValue - 1;
+            $('#var-value').text(newValue);
+            $('#qty-basket').val(newValue);
+        }
+    });
+});
     $(document).on('click', '#add-button', function (e){
         e.preventDefault();
         $.ajax({
@@ -85,11 +102,13 @@
             url: '{% url "basket_add" %}',
             data: {
                 product_id: $('#add-button').val(),
+                product_qty: $('#var-value').text(),
                 csrfmiddlewaretoken: "{{ csrf_token }}",
                 action: 'post'
             },
             success: function (json) {
-                console.log(json)
+<!--                console.log(json)-->
+                    document.getElementById("basket_quantity").textContent = json.qty
             },
             error: function (xhr, errmsg, err) {
             }

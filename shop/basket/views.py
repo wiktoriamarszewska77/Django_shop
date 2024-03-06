@@ -9,7 +9,8 @@ from django.http import JsonResponse
 def basket_summary(request):
     basket = Basket(request)
     basket_products = basket.get_prods
-    return render(request, 'basket_summary.html', {'basket_products': basket_products})
+    quantities = basket.get_quants
+    return render(request, 'basket_summary.html', {'basket_products': basket_products, 'quantities': quantities})
 
 
 
@@ -18,8 +19,9 @@ def basket_add(request):
 
     if request.POST.get('action') == 'post':
         product_id = int(request.POST.get('product_id'))
+        product_qty = int(request.POST.get('product_qty'))
         product = get_object_or_404(Product, id=product_id)
-        basket.add(product=product)
+        basket.add(product=product, quantity=product_qty)
 
         basket_quantity = basket.__len__()
         response = JsonResponse({'qty': basket_quantity})

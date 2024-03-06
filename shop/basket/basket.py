@@ -9,13 +9,15 @@ class Basket():
 
         self.basket = basket
 
-    def add(self, product):
+    def add(self, product, quantity):
         product_id = str(product.id)
+        product_qty = str(quantity)
 
         if product_id in self.basket:
             pass
         else:
-            self.basket[product_id] = {'price': str(product.price)}
+            # self.basket[product_id] = {'price': str(product.price)}
+            self.basket[product_id] = int(product_qty)
 
         self.session.modified = True
 
@@ -27,3 +29,7 @@ class Basket():
 
         products = Product.objects.filter(id__in=product_ids)
         return products
+
+    def get_quants(self):
+        quantities = self.basket
+        return quantities
