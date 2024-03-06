@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <section class="h-100 gradient-custom">
   <div class="container py-5">
@@ -26,7 +27,7 @@
                 <!-- Data -->
                 <p><strong>{{ product.name }}</strong></p>
                 <p>{{ product.brand }}</p>
-                <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                <button type="button" class="btn btn-primary btn-sm me-1 mb-2 trash" data-mdb-toggle="tooltip"
                   title="Remove item">
                   <img src="/media/trash.png">
                 </button>
@@ -35,20 +36,21 @@
               <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <!-- Quantity -->
                 <div class="d-flex mb-4" style="max-width: 300px">
-                    <button class="btn btn-primary btn-sm p-0 me-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                        <i class="btn btn-success">-</i>
-                    </button>
+<!--                    <button class="btn btn-primary btn-sm p-0 me-2"-->
+<!--                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-->
+<!--                        <i class="btn btn-success">-</i>-->
+<!--                    </button>-->
 
                     <div class="form-outline">
-                        <input id="form1" min="0" name="quantity" value="{% for key, value in quantities.items %}{% if key == product.id|slugify %}{{ value }}{% endif %}{% endfor %}" type="number" class="form-control" />
-                        <label class="form-label" for="form1">Quantity</label>
+                      <label class="form-label" for="select{{product.id}}">Quantity:</label>
+                        <input id="select{{product.id}}" min="0" name="quantity" value="{% for key, value in quantities.items %}{% if key == product.id|slugify %}{{ value }}{% endif %}{% endfor %}" type="number" class="form-control" />
+                        <button type="button" data-index="{{ product.id }}" class="btn btn-secondary update-basket">Update</button>
                     </div>
 
-                    <button class="btn btn-primary btn-sm p-0 ms-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                        <i class="btn btn-success">+</i>
-                    </button>
+<!--                    <button class="btn btn-primary btn-sm p-0 ms-2"-->
+<!--                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">-->
+<!--                        <i class="btn btn-success">+</i>-->
+<!--                    </button>-->
                 </div>
                 <!-- Quantity -->
 
@@ -63,7 +65,6 @@
             {% endfor %}
             <!-- Single item -->
 
-            <hr class="my-4" />
           </div>
         </div>
         <div class="card mb-4">
@@ -124,8 +125,25 @@
     </div>
   </div>
 </section>
-
-<!--{% for product in basket_products %}-->
-<!--  {{ product }} {{ product.price }}-->
-<!--{% endfor %}-->
+<script>
+        $(document).on('click', '.update-basket', function (e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket_update" %}',
+            data: {
+                product_id: $(this).data('index'),
+                product_qty: $('#select' + productid).val(),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'post'
+            },
+            success: function (json) {
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) {
+            }
+        });
+    })
+</script>
 {% endblock %}

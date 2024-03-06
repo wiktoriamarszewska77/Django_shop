@@ -33,3 +33,15 @@ class Basket():
     def get_quants(self):
         quantities = self.basket
         return quantities
+
+    def update(self, product, quantity):
+        product_id = str(product)
+        product_qty = int(quantity)
+
+        our_basket = self.basket
+        our_basket[product_id] = product_qty
+
+        self.session.modified = True
+
+        thing = self.basket
+        return thing
