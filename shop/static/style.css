@@ -1,4 +1,4 @@
-body {
+/*body {
   background: #F8F8FF;
   color: #333333;
   margin-top: 5rem;
@@ -34,4 +34,71 @@ ul {
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+}*/
+.content-section {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 40px;
+  border: 2px solid #59ab6e;
+  border-radius: 15px;
+  background-color: #f9f9f9;
 }
+
+.form-group {
+  margin-bottom: 40px;
+}
+
+.btn {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background-color: #59ab6e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #59ab6e;
+}
+
+.text-muted {
+  color: #777;
+}
+
+legend {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+fieldset {
+  border: 2px solid #59ab6e;
+  padding: 40px;
+  border-radius: 15px;
+}
+
+.small {
+  font-size: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ .trash {
+        padding: 12px;
+        margin-top: 30px;
+    }
+.update-basket {
+        margin-top: 8px;
+        padding: 6px;
+        color: black;
+    }
