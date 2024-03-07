@@ -9,9 +9,8 @@ from django.http import JsonResponse
 def basket_summary(request):
     basket = Basket(request)
     basket_products = basket.get_prods
-    quantities = basket.get_quants
+    quantities = basket.basket
     return render(request, 'basket_summary.html', {'basket_products': basket_products, 'quantities': quantities})
-
 
 
 def basket_add(request):
@@ -21,12 +20,13 @@ def basket_add(request):
         product_id = int(request.POST.get('product_id'))
         product_qty = int(request.POST.get('product_qty'))
         product = get_object_or_404(Product, id=product_id)
-        basket.add(product=product, quantity=product_qty)
+        basket.add(product_id=product.id, quantity=product_qty)
 
         basket_quantity = basket.__len__()
         response = JsonResponse({'qty': basket_quantity})
         # response = JsonResponse({'Product Name:': product.name})
         return response
+
 
 def basket_update(request):
     basket = Basket(request)
@@ -34,9 +34,18 @@ def basket_update(request):
         product_id = int(request.POST.get('product_id'))
         product_qty = int(request.POST.get('product_qty'))
 
-        basket.update(product=product_id, quantity=product_qty)
+        basket.update(product_id=product_id, quantity=product_qty)
 
         response = JsonResponse({'qty': product_qty})
         return response
         # return redirect('basket_summary')
+
+def basket_delete(request):
+    basket = Basket(request)
+    if request.POST.get('action') == 'post':
+        product_id = request.POST.get('product_id')
+        basket.delete(product=product_id)
+
+        response = JsonResponse({'product': product_id})
+        return response
 

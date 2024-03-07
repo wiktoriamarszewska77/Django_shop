@@ -27,7 +27,7 @@
                 <!-- Data -->
                 <p><strong>{{ product.name }}</strong></p>
                 <p>{{ product.brand }}</p>
-                <button type="button" class="btn btn-primary btn-sm me-1 mb-2 trash" data-mdb-toggle="tooltip"
+                <button type="button" class="btn btn-danger btn-sm me-1 mb-2 trash" data-index="{{ product.id }}"
                   title="Remove item">
                   <img src="/media/trash.png">
                 </button>
@@ -135,6 +135,24 @@
             data: {
                 product_id: $(this).data('index'),
                 product_qty: $('#select' + productid).val(),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'post'
+            },
+            success: function (json) {
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) {
+            }
+        });
+    })
+     $(document).on('click', '.trash', function (e){
+        e.preventDefault();
+<!--        var productid = $(this).data('index');-->
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket_delete" %}',
+            data: {
+                product_id: $(this).data('index'),
                 csrfmiddlewaretoken: "{{ csrf_token }}",
                 action: 'post'
             },
