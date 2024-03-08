@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 <section class="h-100 gradient-custom">
   <div class="container py-5">
@@ -27,7 +26,7 @@
                 <!-- Data -->
                 <p><strong>{{ product.name }}</strong></p>
                 <p>{{ product.brand }}</p>
-                <button type="button" class="btn btn-danger btn-sm me-1 mb-2 trash" data-index="{{ product.id }}"
+                <button type="button" class="btn btn-secondary btn-sm me-1 mb-2 trash" data-index="{{ product.id }}"
                   title="Remove item">
                   <img src="/media/trash.png">
                 </button>
@@ -98,7 +97,7 @@
               <li
                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                 Products
-                <span>$53.98</span>
+                <span>{{ totals }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                 Shipping
@@ -112,7 +111,7 @@
                     <p class="mb-0">(including VAT)</p>
                   </strong>
                 </div>
-                <span><strong>$53.98</strong></span>
+                <span><strong>{{ totals }}</strong></span>
               </li>
             </ul>
 

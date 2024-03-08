@@ -15,6 +15,19 @@ class Basket:
             self.basket[product_id] = quantity
             self.session.modified = True
 
+    def basket_total(self):
+        products_ids = self.basket.keys()
+        products = Product.objects.filter(id__in=products_ids)
+
+        quantities = self.basket
+        total = 0
+        for key, value in quantities.items():
+            key = int(key)
+            for product in products:
+                if product.id == key:
+                    total = total + (product.price * value)
+
+        return total
     def __len__(self):
         return len(self.basket)
 

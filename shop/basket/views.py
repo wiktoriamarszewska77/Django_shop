@@ -10,7 +10,8 @@ def basket_summary(request):
     basket = Basket(request)
     basket_products = basket.get_prods
     quantities = basket.basket
-    return render(request, 'basket_summary.html', {'basket_products': basket_products, 'quantities': quantities})
+    totals = basket.basket_total()
+    return render(request, 'basket_summary.html', {'basket_products': basket_products, 'quantities': quantities, 'totals': totals})
 
 
 def basket_add(request):
