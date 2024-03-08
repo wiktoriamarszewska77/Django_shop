@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
 
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'templatemo.css' %}"/>
@@ -14,6 +13,8 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" type="text/css" href="{% static 'fontawesome.min.css' %}"/>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     {% if title %}
         <title>Shop - {{ title }}</title>
@@ -81,6 +82,10 @@
                             {% csrf_token %}
                             <input type="hidden">
                         </form>
+                        <a class="nav-icon position-relative text-decoration-none" href="{% url 'basket_summary' %}" target="_self"><img src="/media/basket.png" style="padding-top: 10px; margin-left: 10px;">
+                            <span class="position-static  top-0 left-100 translate-middle badge rounded-pill bg-light text-dark" id="basket_quantity">{{ basket|length }}</span>
+                        </a>
+<!--                        <a class="nav-item nav-link" href="{% url 'basket_summary' %}" target="_self"><img src="/media/basket.png"></a>-->
                         {% else %}
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                         <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
