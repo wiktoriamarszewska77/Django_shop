@@ -50,3 +50,8 @@ class Basket:
 
         self.session.modified = True
 
+    def remove_basket(self):
+        self.basket = {}
+        self.session['session_key'] = {}
+        self.session.modified = True
+
