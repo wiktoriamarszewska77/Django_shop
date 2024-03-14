@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 <section class="h-100 gradient-custom">
   <div class="container py-5">
@@ -11,14 +12,11 @@
           </div>
           <div class="container">
           <div class="content-section">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" id="orderForm" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
                 {{ order_form|crispy}}
             </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Post</button>
-            </div>
         </form>
           </div>
         </div>
@@ -60,11 +58,18 @@
                 <span><strong>{{ basket.basket_total}}</strong></span>
               </li>
             </ul>
-            <p class="text-center"><a class="btn btn-success" href="{% url 'home' %}">Place order</a></p>
+            <p class="text-center">
+                <button class="btn btn-success" id="submitOrderBtn">Place order</button>
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<script>
+      document.getElementById('submitOrderBtn').addEventListener('click', function() {
+          document.getElementById('orderForm').submit();
+      });
+</script>
 {% endblock %}
