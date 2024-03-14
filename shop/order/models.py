@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from products.models import Product
+from datetime import datetime
 
 
 class Order(models.Model):
@@ -11,7 +12,11 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order placed {str(self.date)} by {self.buyer.first_name} {self.buyer.last_name}."
+        formatted_date = self.date.strftime('%Y-%m-%d %H:%M')
+        if self.buyer.first_name and self.buyer.last_name:
+            return f"Order placed {formatted_date} by {self.buyer.first_name} {self.buyer.last_name}."
+        else:
+            return f"Order placed {formatted_date} by {self.buyer.username}."
 
     @property
     def address(self):

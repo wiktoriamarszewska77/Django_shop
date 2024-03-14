@@ -1,23 +1,24 @@
 from django import forms
 from .models import Order
-from django.core.validators import RegexValidator
-from basket.basket import Basket
+
+
 class OrderForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=50)
-    last_name = forms.CharField(max_length=50)
-    street = forms.CharField(max_length=50)
-    city = forms.CharField(max_length=50)
-    postcode = forms.CharField(max_length=6)
-    phone = forms.CharField(max_length=9)
-    email = forms.EmailField()
+    first_name = forms.CharField(max_length=50, required=True)
+    last_name = forms.CharField(max_length=50, required=True)
+    street = forms.CharField(max_length=50, required=True)
+    city = forms.CharField(max_length=50, required=True)
+    postcode = forms.CharField(max_length=6, required=True)
+    phone = forms.CharField(max_length=9, required=True)
+    email = forms.EmailField(required=True)
 
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'phone', 'email', 'item', 'seller']
+        fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'phone', 'email']
 
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
+        basket = kwargs.pop('basket', None)
         initial_fields = {
             'first_name': user.first_name if user else '',
             'last_name': user.last_name if user else '',

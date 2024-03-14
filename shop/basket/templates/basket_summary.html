@@ -35,21 +35,11 @@
               <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <!-- Quantity -->
                 <div class="d-flex mb-4" style="max-width: 300px">
-<!--                    <button class="btn btn-primary btn-sm p-0 me-2"-->
-<!--                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-->
-<!--                        <i class="btn btn-success">-</i>-->
-<!--                    </button>-->
-
                     <div class="form-outline">
                       <label class="form-label" for="select{{product.id}}">Quantity:</label>
                         <input id="select{{product.id}}" min="0" name="quantity" value="{% for key, value in quantities.items %}{% if key == product.id|slugify %}{{ value }}{% endif %}{% endfor %}" type="number" class="form-control" />
                         <button type="button" data-index="{{ product.id }}" class="btn btn-secondary update-basket">Update</button>
                     </div>
-
-<!--                    <button class="btn btn-primary btn-sm p-0 ms-2"-->
-<!--                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">-->
-<!--                        <i class="btn btn-success">+</i>-->
-<!--                    </button>-->
                 </div>
                 <!-- Quantity -->
 
@@ -114,10 +104,7 @@
                 <span><strong>{{ totals }}</strong></span>
               </li>
             </ul>
-
-            <button type="button" class="btn btn-primary btn-lg btn-block">
-              Go to checkout
-            </button>
+            <p class="text-center"><a class="btn btn-success" href="{% url 'order' %}">Go to checkout</a></p>
           </div>
         </div>
       </div>

@@ -4,8 +4,9 @@ from products.models import Product
 from .basket import Basket
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
-
+@login_required()
 def basket_summary(request):
     basket = Basket(request)
     basket_products = basket.get_prods
