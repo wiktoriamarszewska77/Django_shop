@@ -17,9 +17,9 @@ class Order(models.Model):
         formatted_date = self.date.strftime('%Y-%m-%d %H:%M')
 
         if self.buyer.first_name and self.buyer.last_name:
-            return f"Order placed {formatted_date} by {self.buyer.first_name} {self.buyer.last_name}."
+            return f"Order placed {formatted_date} by {self.buyer.first_name} {self.buyer.last_name} shipping {self.delivery.price}"
         else:
-            return f"Order placed {formatted_date} by {self.buyer.username}."
+            return f"Order placed {formatted_date} by {self.buyer.username} shipping {self.delivery.price}"
 
     @property
     def address(self):
