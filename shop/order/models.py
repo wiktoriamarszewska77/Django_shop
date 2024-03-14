@@ -2,6 +2,7 @@ from django.db import models
 from users.models import User
 from products.models import Product
 from datetime import datetime
+from shipping.models import Shipping
 
 
 class Order(models.Model):
@@ -10,9 +11,11 @@ class Order(models.Model):
     city = models.CharField(max_length=50)
     postcode = models.CharField(max_length=5)
     date = models.DateTimeField(auto_now_add=True)
+    delivery = models.ForeignKey(Shipping, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         formatted_date = self.date.strftime('%Y-%m-%d %H:%M')
+
         if self.buyer.first_name and self.buyer.last_name:
             return f"Order placed {formatted_date} by {self.buyer.first_name} {self.buyer.last_name}."
         else:
