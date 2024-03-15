@@ -1,5 +1,6 @@
 from django import forms
 from .models import Order
+from shipping.models import Shipping
 
 
 class OrderForm(forms.ModelForm):
@@ -10,10 +11,11 @@ class OrderForm(forms.ModelForm):
     postcode = forms.CharField(max_length=6, required=True)
     phone = forms.CharField(max_length=9, required=True)
     email = forms.EmailField(required=True)
+    delivery = forms.ModelChoiceField(queryset=Shipping.objects.all(), widget=forms.RadioSelect)
 
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'phone', 'email']
+        fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'phone', 'email', 'delivery']
 
 
     def __init__(self, *args, **kwargs):

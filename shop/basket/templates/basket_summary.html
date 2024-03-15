@@ -58,8 +58,10 @@
         </div>
         <div class="card mb-4">
           <div class="card-body">
-            <p><strong>Expected shipping delivery</strong></p>
-            <p class="mb-0">12.10.2020 - 14.10.2020</p>
+            <p><strong>Delivery method</strong></p>
+              {% for object in object_shipping %}
+                  <p class="mb-0"><b>Name:</b> {{ object.name }} <b>Price:</b> {{ object.price}} <b>Delivery time</b> {{object.delivery_time}}</p>
+              {% endfor %}
           </div>
         </div>
         <div class="card mb-4 mb-lg-0">
@@ -88,10 +90,6 @@
                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                 Products
                 <span>{{ totals }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                Shipping
-                <span>Gratis</span>
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">

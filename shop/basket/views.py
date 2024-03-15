@@ -5,6 +5,7 @@ from .basket import Basket
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from shipping.models import Shipping
 
 @login_required()
 def basket_summary(request):
@@ -12,7 +13,8 @@ def basket_summary(request):
     basket_products = basket.get_prods
     quantities = basket.basket
     totals = basket.basket_total()
-    return render(request, 'basket_summary.html', {'basket_products': basket_products, 'quantities': quantities, 'totals': totals})
+    object_shipping = Shipping.objects.all()
+    return render(request, 'basket_summary.html', {'basket_products': basket_products, 'quantities': quantities, 'totals': totals, 'object_shipping':object_shipping})
 
 
 def basket_add(request):
