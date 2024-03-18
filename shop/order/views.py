@@ -34,5 +34,8 @@ class OrderView(View):
 
         return render(request, 'order.html', {'order_form': order_form})
 
-
-
+@login_required()
+def order_summary_view(request):
+    orders = Order.objects.filter(buyer=request.user)
+    order_items = OrderItem.objects.filter(order__buyer=request.user)
+    return render(request, 'order_summary.html', {'orders': orders, 'order_items': order_items})

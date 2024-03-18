@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from order.models import Order
 from django.http import JsonResponse
@@ -16,6 +16,6 @@ def payment_view(request, order_id):
         elif action == 'mark_as_canceled':
             order.status = 'canceled'
         order.save()
-        return redirect('order_detail', order_id=order.id)
+        return redirect('order_summary')
 
     return render(request, 'payment.html', context={'order': order})

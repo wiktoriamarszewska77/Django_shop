@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<section class="h-100 gradient-custom">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Your order</h5>
+          </div>
+          <div class="card-body">
+            {% for order in orders %}
+            <h3>Order placed on: {{ order.date }}</h3>
+                <h2>Shipping: {{ order.delivery.price }}</h2>
+              <p>Address: {{ order.address }}</p>
+            <p>Status: {{ order.status }}</p>
+              <ul>
+                {% for order_item in order_items %}
+                  {% if order_item.order == order %}
+                      <li>{{ order_item.item.name }}</li>
+                      <li>Price: {{ order_item.price }}</li>
+                      <li>Quantity: {{ order_item.quantity }}</li>
+                      <li>Seller: {{ order_item.item.seller }}</li>
+                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                      <img src="{{ order_item.item.image.url }}" width="167px">
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
