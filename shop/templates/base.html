@@ -1,5 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -76,7 +76,6 @@
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
                         <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-                        <a class="nav-item nav-link" href="{% url 'add-product' %}">Add Product</a>
                         <a class="nav-item nav-link" href="#" onClick="document.getElementById('logoutForm').submit()">Logout</a>
                         <form id="logoutForm" method="POST" action="{% url 'logout' %}">
                             {% csrf_token %}
@@ -85,7 +84,6 @@
                         <a class="nav-icon position-relative text-decoration-none" href="{% url 'basket_summary' %}" target="_self"><img src="/media/basket.png" style="padding-top: 10px; margin-left: 10px;">
                             <span class="position-static  top-0 left-100 translate-middle badge rounded-pill bg-light text-dark" id="basket_quantity">{{ basket|length }}</span>
                         </a>
-<!--                        <a class="nav-item nav-link" href="{% url 'basket_summary' %}" target="_self"><img src="/media/basket.png"></a>-->
                         {% else %}
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                         <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
