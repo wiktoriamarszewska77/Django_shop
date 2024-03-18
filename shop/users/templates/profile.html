@@ -2,6 +2,30 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Manage your profile</h1>
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'order_summary'%}">
+                        Orders
+                    </a>
+                </li>
+                {% if user.company %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'add-product'%}">
+                        Add product
+                    </a>
+                </li>
+                {% endif %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'profile' %}">
+                        Reviews
+                    </a>
+                </li>
+            </ul>
+        </div>
 <div class="content-section">
     <div class="media>">
         <img class="rounded-circle account-img" src="{{ user.image.url }}">
@@ -20,5 +44,7 @@
             <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
     </form>
+</div>
+    </div>
 </div>
 {% endblock %}

@@ -131,7 +131,6 @@
     })
      $(document).on('click', '.trash', function (e){
         e.preventDefault();
-<!--        var productid = $(this).data('index');-->
         $.ajax({
             type: 'POST',
             url: '{% url "basket_delete" %}',

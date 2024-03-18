@@ -59,7 +59,6 @@ ul {
   border-radius: 8px;
   cursor: pointer;
 }
-
 .btn:hover {
   background-color: #59ab6e;
 }
@@ -102,3 +101,9 @@ a:hover {
         padding: 6px;
         color: black;
     }
+
+.highlighted {
+  border: 2px solid #28a745;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}

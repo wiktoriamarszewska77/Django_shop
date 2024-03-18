@@ -1,0 +1,78 @@
+<title>Payment - Django Shop</title>
+{% extends 'base.html' %}
+{% block content %}
+<section class="h-100 gradient-custom">
+  <div class="container py-6">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-9">
+        <div class="card mb-5">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Choose form of payment</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="card mb-4" onclick="selectPayment(this)">
+                  <img src="/media/payment_mastercard.jpg" alt="Mastercard Logo" class="img-fluid">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card mb-4" onclick="selectPayment(this)">
+                  <img src="/media/payment_american.jpg" alt="American Express Logo" class="img-fluid">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card mb-4" onclick="selectPayment(this)">
+                  <img src="/media/payment_visa.jpg" alt="Visa Logo" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          </div>
+         <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="action" value="mark_as_paid" id="paymentButton" class="btn btn-success">Pay</button>
+            <button type="submit" name="action" value="mark_as_canceled" class="btn btn-danger">Cancel</button>
+        </form>
+        </div>
+      </div>
+<!--         <button type="button" class="payment" data-index="{{ order.id }}">-->
+<!--            <a id="paymentButton" class="btn btn-success">Payment</a>-->
+<!--        </button>-->
+<!--        </div>-->
+
+<!--    <button type="button" class="stop-payment" data-index="{{ order.id }}"><a id="stopPayment" class="btn btn-success">Stop Payment</a></button>-->
+<!--    <button type="button" class="back" data-index="{{ order.id }}"><a id="back" class="btn btn-success">Back to order</a></button>-->
+<!--      </div>-->
+    </div>
+<!--    <p class="text-center"><a class="btn btn-danger" style="background-color: red;" href="{% url 'home' %}">Stop Payment</a></p>-->
+<!--    <p class="text-center"><a class="btn btn-success" href="{% url 'order' %}">Back to order</a></p>-->
+  </div>
+</section>
+<style>
+  .selected {
+    border: 2px solid #28a745;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+  }
+</style>
+<script>
+  let selectedPayment = null;
+
+  function selectPayment(element) {
+    if (selectedPayment) {
+      selectedPayment.classList.remove('selected');
+    }
+    selectedPayment = element;
+    selectedPayment.classList.add('selected');
+    document.getElementById('paymentButton').href = "{% url 'order' %}";
+  }
+
+  function handlePayment() {
+    if (!selectedPayment) {
+      alert('Please select a payment method before proceeding to payment.');
+    } else {
+      // Handle payment logic here
+    }
+  }
+</script>
+{% endblock %}

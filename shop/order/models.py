@@ -4,6 +4,11 @@ from products.models import Product
 from datetime import datetime
 from shipping.models import Shipping
 
+ORDER_STATUS = (
+    ("paid", "Paid"),
+    ("expectancy", "Expectancy"),
+    ("canceled", "Canceled"),
+)
 
 class Order(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -12,6 +17,7 @@ class Order(models.Model):
     postcode = models.CharField(max_length=5)
     date = models.DateTimeField(auto_now_add=True)
     delivery = models.ForeignKey(Shipping, on_delete=models.CASCADE, default=1)
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='expectancy')
 
     def __str__(self):
         formatted_date = self.date.strftime('%Y-%m-%d %H:%M')
