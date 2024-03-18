@@ -2,10 +2,11 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (ProductListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductDeleteView,
-                    CategoryProductListView, HomeView, BrandProductListView)
+                    CategoryProductListView, HomeView, BrandProductListView, AboutView)
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('about/', AboutView.as_view(), name='about'),
     path('products/', ProductListView.as_view(), name='products-list'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='detail-product'),
     path('add/product', ProductCreateView.as_view(), name='add-product'),
