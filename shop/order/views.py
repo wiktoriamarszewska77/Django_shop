@@ -30,7 +30,7 @@ class OrderView(View):
 
             basket.remove_basket()
             messages.success(request, "Order placed successfully!")
-            return redirect('profile')
+            return redirect('payment_view', order_id=order.id)
 
         return render(request, 'order.html', {'order_form': order_form})
 
