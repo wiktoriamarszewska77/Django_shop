@@ -69,11 +69,10 @@
                               </div>
                           </div>
                           <div class="row pb-3">
-                              <div class="col d-grid">
-                                  <button type="button" id="add-button" value="{{product.id}}" class="btn btn-secondary btn-sm" style="width: 200px; margin-left: 20px;">Add to basket</button></div>
-                                  <button type="button" class="btn btn-secondary btn-sm" style="width: 200px; margin-right: 30px;"><a href="{% url 'add_review' product_id=product.id %}">Add opinions</a></button>
-                              </div>
-                          </div>
+                        <div class="col text-center">
+                            <button type="button" id="add-button" value="{{product.id}}" class="btn btn-secondary btn-sm" style="width: 200px;">Add to basket</button>
+                        </div>
+                    </div>
               </div>
               </div>
           </div>
