@@ -1,10 +1,20 @@
 from django.shortcuts import render
 from .models import Review
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.list import ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from products.models import Product
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+
+class ReviewProductView(ListView):
+    model = Review
+    template_name = 'review_product.html'
+    context_object_name = 'reviews'
+    def get_queryset(self):
+        product_id = self.kwargs.get('product_id')
+        queryset = Review.objects.filter(product_id=product_id)
+        return queryset
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
@@ -39,3 +49,5 @@ class ReviewDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     def test_func(self):
         review = self.get_object()
         return self.request.user == review.user
+
+

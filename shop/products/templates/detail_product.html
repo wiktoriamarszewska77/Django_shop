@@ -32,13 +32,12 @@
                       <h1 class="h2">{{ product.name }}</h1>
                       <p class="h3 py-2">{{ product.price }}</p>
                       <p class="py-2">
-                          <i class="fa fa-star text-warning"></i>
-                          <i class="fa fa-star text-warning"></i>
-                          <i class="fa fa-star text-warning"></i>
-                          <i class="fa fa-star text-warning"></i>
-                          <i class="fa fa-star text-secondary"></i>
-                          <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
-                      </p>
+                         <span class="list-inline-item text-dark">
+                            <a href="{% url 'review_product' product_id=product.id %}">
+                            Rating {{ average_rating }} | {{ comment_count }} Comments
+                            </a>
+                        </span>
+                            </p>
                       <ul class="list-inline">
                           <li class="list-inline-item">
                               <h6>Brand:</h6>
@@ -71,7 +70,8 @@
                           </div>
                           <div class="row pb-3">
                               <div class="col d-grid">
-                                  <button type="button" id="add-button" value="{{product.id}}" class="btn btn-secondary btn-sm">Add to basket</button></div>
+                                  <button type="button" id="add-button" value="{{product.id}}" class="btn btn-secondary btn-sm" style="width: 200px; margin-left: 20px;">Add to basket</button></div>
+                                  <button type="button" class="btn btn-secondary btn-sm" style="width: 200px; margin-right: 30px;"><a href="{% url 'add_review' product_id=product.id %}">Add opinions</a></button>
                               </div>
                           </div>
               </div>

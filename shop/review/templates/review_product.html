@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="bg-light">
+  <div class="container pb-5">
+    <div class="row">
+      <div class="col-lg-16 mt-4">
+        <div class="card">
+          <div class="card-body">
+              {% for review in reviews %}
+            <h1 class="text-center">Reviews for "{{ review.product.name }}"</h1>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card mb-3">
+                  <img src="{{ review.product.image.url }}" style="width: 300px; height: auto; display: block; margin: 0 auto;">
+                  <p class="text-center"><a class="btn btn-success">Add opinions</a></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <img class="rounded-circle account-img" src="{{ review.user.image.url }}" style="width: 100px;">
+                      <h3>{{ review.user }}</h3>
+                      <p>Rating: {{ review.rating }}</p>
+                      <p>Comment: {{ review.comment }}</p>
+                      <li class="list-inline-item"><p class="text-muted"><strong>{{ review.date }}</strong></p></li>
+                      {% empty %}
+                        <p>No reviews available.</p>
+                      {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

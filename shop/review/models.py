@@ -9,5 +9,9 @@ class Review(models.Model):
     comment = models.TextField()
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
+    class Meta:
+        ordering = ['date']
+
+
     def __str__(self):
         return f'Review by {self.user} for {self.product} and rating {self.rating}'
