@@ -34,3 +34,8 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         review = self.get_object()
         return self.request.user == review.user
+
+class ReviewDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
+    def test_func(self):
+        review = self.get_object()
+        return self.request.user == review.user
