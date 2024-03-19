@@ -50,4 +50,13 @@ class ReviewDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
         review = self.get_object()
         return self.request.user == review.user
 
+class ReviewUserView(LoginRequiredMixin, ListView):
+    model = Review
+    template_name = 'user_reviews.html'
+    context_object_name = 'reviews'
+
+    def get_queryset(self):
+        user = self.request.user
+        return Review.objects.filter(user=user)
+
 

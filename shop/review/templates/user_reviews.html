@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="h-100 gradient-custom">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h1 class="text-center">Your reviews</h1>
+          </div>
+            <div class="row justify-content-center">
+                {% for review in reviews %}
+                <div class="col-md-5" style="margin: 10px;">
+            <div class="card mb-4 product-wap rounded-0">
+                <div class="card rounded-0">
+                    <img class="card-img rounded-0 img-fluid" src="{{ review.product.image.url }}">
+                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>{{ review.product.name }}</h3>
+                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                        <li><strong>Rating:</strong> {{ review.rating }}</li>
+                        <li class="pt-2">
+                        </li>
+                    </ul>
+                    <p><strong>Comment:</strong> {{ review.comment }}</p>
+                   <div class="text-center">
+                       <a href="{% url 'update_review' product_id=review.product.id %}" class="btn btn-success d-inline-block mr-2" style="margin: 5px;">Update</a>
+                       <a href="{% url 'delete_review' product_id=review.product.id %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d;">Delete</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
