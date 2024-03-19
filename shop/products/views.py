@@ -6,6 +6,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from users.models import Company
 from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
 
 
 class HomeView(TemplateView):
@@ -60,7 +61,7 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'delete_product.html'
-    success_url = '/'
+    success_url = '/user/products/'
 
     def test_func(self):
         product = self.get_object()
@@ -85,3 +86,13 @@ class BrandProductListView(ListView):
     def get_queryset(self):
         brand = self.kwargs['brand']
         return Product.objects.filter(brand=brand)
+
+class UserProductList(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = 'user_products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        user = self.request.user
+        company = get_object_or_404(Company, user=user)
+        return Product.objects.filter(seller=company)
