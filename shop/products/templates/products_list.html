@@ -85,7 +85,7 @@
                         </li>
                     </ul>
                     <ul class="list-unstyled d-flex justify-content-center mb-1">
-                        <span><a href="{% url 'review_product' product_id=product.id %}">Rating {{ average_rating }} | {{ comment_count }} Comments </a></span>
+                        <span><a href="{% url 'review_product' product_id=product.id %}">Rating {% if product.avg_rating %}{{ product.avg_rating }}{% else %}0{% endif %} | {% if product.comments_count %}{{ product.comments_count }} Comments{% else %}0 Comments{% endif %}</a></span>
                     </ul>
                     <p class="text-center mb-0">{{ product.price }}</p>
                 </div>

@@ -51,6 +51,7 @@
     <!-- End Categories of The Month -->
 
     <!-- Start Featured Product -->
+
     <section class="bg-light">
         <div class="container py-5">
             <div class="row text-center py-3">
@@ -59,65 +60,25 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="shop-single.html">
-                            <img src="./media/products_pics/lego.jpg" class="card-img-top" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <ul class="list-unstyled d-flex justify-content-between">
-                                <span>Rating {{ average_rating }}</span>
-                                <li class="text-muted text-right">240.00</li>
-                            </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">LEGO Disney Hocus Pocus</a>
-                            <p class="card-text">
-                                Capture the magic of the movie with the LEGO Ideas Disney Hocus Pocus: Sanderson's Cabin collectible set.
-                                The house can be opened in many ways to reveal interior details.
-                            </p>
-                            <p class="text-muted">Comments ({{ comment_count }})</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="shop-single.html">
-                            <img src="./media/products_pics/watch.jpg" class="card-img-top" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <ul class="list-unstyled d-flex justify-content-between">
-                                <span>Rating {{ average_rating }}</span>
-                                <li class="text-muted text-right">480.00</li>
-                            </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Smartband SAMSUNG Fit 3</a>
-                            <p class="card-text">
-                                Powerful power that will last up to 13 days on a single charge¹.
-                                Fast top-up to 65% in just 30 minutes avoids long interruptions in use.
-                                You can finally fully focus on your daily challenges.
-                            </p>
-                            <p class="text-muted">Comments ({{ comment_count }})</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100">
-                        <a href="shop-single.html">
-                            <img src="./media/products_pics/bike.jpg" class="card-img-top" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <ul class="list-unstyled d-flex justify-content-between">
-                                <span>Rating {{ average_rating }}</span>
-                                <li class="text-muted text-right">1160.00</li>
-                            </ul>
-                            <a href="shop-single.html" class="h2 text-decoration-none text-dark">Bike INDIANA X-Pulser</a>
-                            <p class="card-text">
-                                The INDIANA X-Pulser 1.6 mountain bike is the perfect choice for people who like an active lifestyle and like to spend time outdoors.
-                                This solid and reliable bike was designed for mountainous terrain and difficult conditions .
-                            </p>
-                            <p class="text-muted">Comments ({{ comment_count }})</p>
-                        </div>
-                    </div>
-                </div>
+    {% for product in products %}
+    <div class="col-12 col-md-4 mb-4">
+        <div class="card h-100">
+            <a href="{% url 'detail-product' product.id %}">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+            </a>
+            <div class="card-body">
+                <ul class="list-unstyled d-flex justify-content-between">
+                    <span>Rating {% if product.avg_rating %}{{ product.avg_rating }}{% else %}0{% endif %}</span>
+                    <li class="text-muted text-right">{{ product.price }}</li>
+                </ul>
+                <a href="shop-single.html" class="h2 text-decoration-none text-dark">{{ product.name }}</a>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="text-muted">Comments ({% if product.comments_count %}{{ product.comments_count }}{% else %}0{% endif %})</p>
             </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
         </div>
     </section>
     <!-- End Featured Product -->

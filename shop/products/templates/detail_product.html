@@ -7,7 +7,7 @@
       <div class="row">
           <div class="col-lg-5 mt-5">
               <div class="card mb-3">
-                  <img src="{{ product.image.url }}">
+                  <img src="{{ product.image.url }}" style="height: 544 px;">
               </div>
               <div class="row">
                   <!--Start Controls-->
@@ -34,7 +34,7 @@
                       <p class="py-2">
                          <span class="list-inline-item text-dark">
                             <a href="{% url 'review_product' product_id=product.id %}">
-                            Rating {{ avg_rating }} | {{ comments_count }} Comments
+                                Rating {% if avg_rating %}{{ avg_rating }}{% else %}0{% endif %} | {% if comments_count %}{{ comments_count }} Comments{% else %}0 Comments{% endif %}
                             </a>
                         </span>
                             </p>
