@@ -16,6 +16,10 @@ class AboutView(TemplateView):
     template_name = "about.html"
 
 
+class ContactView(TemplateView):
+    template_name = "contact.html"
+
+
 class ProductListView(ListView):
     model = Product
     template_name = "products_list.html"
@@ -111,6 +115,7 @@ class UserProductList(LoginRequiredMixin, ListView):
     model = Product
     template_name = "user_products.html"
     context_object_name = "products"
+    paginate_by = 6
 
     def get_queryset(self):
         user = self.request.user

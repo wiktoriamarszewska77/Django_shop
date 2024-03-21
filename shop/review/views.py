@@ -11,6 +11,7 @@ class ReviewProductView(ListView):
     model = Review
     template_name = "review_product.html"
     context_object_name = "reviews"
+    paginate_by = 4
 
     def get_queryset(self):
         product_id = self.kwargs.get("product_id")
@@ -27,6 +28,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         product_id = self.kwargs["product_id"]
         form.instance.product = get_object_or_404(Product, id=product_id)
+
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -63,6 +65,7 @@ class ReviewUserView(LoginRequiredMixin, ListView):
     model = Review
     template_name = "user_reviews.html"
     context_object_name = "reviews"
+    paginate_by = 6
 
     def get_queryset(self):
         user = self.request.user

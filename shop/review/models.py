@@ -13,6 +13,10 @@ class Review(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
 
+    @staticmethod
+    def count_comments_for_product(product_id):
+        return Review.objects.filter(product_id=product_id).count()
+
     class Meta:
         ordering = ["date"]
 
