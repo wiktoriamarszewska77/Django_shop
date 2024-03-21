@@ -51,8 +51,8 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class ReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Review
-    template_name = "add_review.html"
-    fields = ["comment", "rating"]
+    template_name = "delete_review.html"
+    success_url = "/user/reviews/"
 
     def test_func(self):
         review = self.get_object()
