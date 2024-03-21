@@ -1,40 +1,83 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section class="h-100 gradient-custom">
-  <div class="container py-5">
-    <div class="row d-flex justify-content-center my-4">
-      <div class="col-md-10">
-        <div class="card mb-4">
-          <div class="card-header py-3">
-            <h1 class="text-center">Your products</h1>
-          </div>
-          <div class="row justify-content-center">
-            {% for product in products %}
-              <div class="col-md-5" style="margin: 10px;">
-                <div class="card mb-4 product-wap rounded-0">
-                  <div class="card rounded-0">
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Manage your profile</h1>
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'order_summary'%}">
+                        Orders
+                    </a>
+                </li>
+                {% if user.company %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'add-product'%}">
+                        Add product
+                    </a>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'user_products'%}">
+                        Your Products
+                    </a>
+                </li>
+                {% endif %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'user_reviews' %}">
+                        Reviews
+                    </a>
+                </li>
+            </ul>
+        </div>
+         <div class="col-lg-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3">Your products</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4 product-wap rounded-0">
+                <div class="card rounded-0">
                     <img class="card-img rounded-0 img-fluid" src="{{ product.image.url }}">
                     <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <a href="{% url 'detail-product' product.id %}" class="h3 text-decoration-none">{{ product.name }}</a>
-                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                      <li>{{ product.data_added }}</li>
-                      <li class="pt-2"></li>
-                    </ul>
-                    <div class="text-center">
-                      <a href="{% url 'product-update' pk=product.pk %}" class="btn btn-success d-inline-block mr-2" style="margin: 5px;">Update</a>
-                      <a href="{% url 'product-delete' pk=product.pk %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d;">Delete</a>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            {% endfor %}
-          </div>
+                <div class="card-body">
+                    <a href="{% url 'detail-product' product.id %}" class="h3 text-decoration-none"><strong>{{ product.name }}</strong></a>
+                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                        <li>{{ product.data_added }}</li>
+                        <li class="pt-2">
+                            <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled d-flex justify-content-center mb-1">
+                        <span><a href="{% url 'review_product' product_id=product.id %}">Rating {% if product.avg_rating %}{{ product.avg_rating }}{% else %}0{% endif %} | {% if product.comments_count %}{{ product.comments_count }} Comments{% else %}0 Comments{% endif %}</a></span>
+                    </ul>
+                    <p class="text-center mb-0">{{ product.price }}</p>
+                </div>
+                    <a href="{% url 'product-update' pk=product.pk %}" class="btn btn-success d-inline-block mr-2" style="margin: 10px;">Update</a>
+                    <a href="{% url 'product-delete' pk=product.pk %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d; margin: 10px; ">Delete</a>
+            </div>
         </div>
-          <div class="row">
+    {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- End Content -->
+<div class="row">
     <ul class="pagination pagination-lg justify-content-end">
         {% if page_obj.has_previous %}
             <li class="page-item">
@@ -61,8 +104,4 @@
         {% endif %}
     </ul>
 </div>
-      </div>
-    </div>
-  </div>
-</section>
 {% endblock %}

@@ -1,17 +1,48 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section class="h-100 gradient-custom">
-  <div class="container py-5">
-    <div class="row d-flex justify-content-center my-4">
-      <div class="col-md-8">
-        <div class="card mb-4">
-          <div class="card-header py-3">
-            <h1 class="text-center">Your reviews</h1>
-          </div>
-            <div class="row justify-content-center">
-                {% for review in reviews %}
-                <div class="col-md-5" style="margin: 10px;">
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Manage your profile</h1>
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'order_summary'%}">
+                        Orders
+                    </a>
+                </li>
+                {% if user.company %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'add-product'%}">
+                        Add product
+                    </a>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'user_products'%}">
+                        Your Products
+                    </a>
+                </li>
+                {% endif %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'user_reviews' %}">
+                        Reviews
+                    </a>
+                </li>
+            </ul>
+        </div>
+         <div class="col-lg-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3">Your reviews</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+    {% for review in reviews %}
+        <div class="col-md-4">
             <div class="card mb-4 product-wap rounded-0">
                 <div class="card rounded-0">
                     <img class="card-img rounded-0 img-fluid" src="{{ review.product.image.url }}">
@@ -21,22 +52,38 @@
                 <div class="card-body">
                     <h3>{{ review.product.name }}</h3>
                     <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                        <li><strong>Rating:</strong> {{ review.rating }}</li>
+                        <li>Rating: {{ review.rating }}</li>
                         <li class="pt-2">
+                            <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
                         </li>
                     </ul>
-                    <p><strong>Comment:</strong> {{ review.comment }}</p>
-                   <div class="text-center">
-                       <a href="{% url 'update_review' pk=review.id %}" class="btn btn-success d-inline-block mr-2" style="margin: 5px;">Update</a>
-                       <a href="{% url 'delete_review' pk=review.id %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d;">Delete</a>
+                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                        <li>Comments: {{ review.comment }}</li>
+                        <li class="pt-2">
+                            <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                        </li>
+                    </ul>
                 </div>
-                </div>
+                <a href="{% url 'update_review' pk=review.id %}" class="btn btn-success d-inline-block mr-2" style="margin: 10px;">Update</a>
+                <a href="{% url 'delete_review' pk=review.id %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d; margin: 10px; ">Delete</a>
             </div>
         </div>
     {% endfor %}
         </div>
-        </div>
-           <div class="row">
+    </div>
+</div>
+</div>
+
+<!-- End Content -->
+<div class="row">
     <ul class="pagination pagination-lg justify-content-end">
         {% if page_obj.has_previous %}
             <li class="page-item">
@@ -63,8 +110,4 @@
         {% endif %}
     </ul>
 </div>
-      </div>
-    </div>
-  </div>
-</section>
 {% endblock %}
