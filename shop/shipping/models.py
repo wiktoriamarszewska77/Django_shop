@@ -1,6 +1,4 @@
 from django.db import models
-from basket.basket import Basket
-
 
 
 class Shipping(models.Model):
@@ -11,7 +9,7 @@ class Shipping(models.Model):
 
     def get_shipping_cost(self, basket_total):
         if basket_total >= self.free_delivery:
-            return 'Free delivery'
+            return "Free delivery"
         else:
             return self.price
 

@@ -11,22 +11,32 @@ class OrderForm(forms.ModelForm):
     postcode = forms.CharField(max_length=6, required=True)
     phone = forms.CharField(max_length=9, required=True)
     email = forms.EmailField(required=True)
-    delivery = forms.ModelChoiceField(queryset=Shipping.objects.all(), widget=forms.RadioSelect)
+    delivery = forms.ModelChoiceField(
+        queryset=Shipping.objects.all(), widget=forms.RadioSelect
+    )
 
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'street', 'city', 'postcode', 'phone', 'email', 'delivery']
-
+        fields = [
+            "first_name",
+            "last_name",
+            "street",
+            "city",
+            "postcode",
+            "phone",
+            "email",
+            "delivery",
+        ]
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        basket = kwargs.pop('basket', None)
+        user = kwargs.pop("user", None)
+        kwargs.pop("basket", None)
         initial_fields = {
-            'first_name': user.first_name if user else '',
-            'last_name': user.last_name if user else '',
-            'city': user.address if user else '',
-            'phone': user.phone if user else '',
-            'email': user.email if user else '',
+            "first_name": user.first_name if user else "",
+            "last_name": user.last_name if user else "",
+            "city": user.address if user else "",
+            "phone": user.phone if user else "",
+            "email": user.email if user else "",
         }
         super(OrderForm, self).__init__(*args, **kwargs)
 

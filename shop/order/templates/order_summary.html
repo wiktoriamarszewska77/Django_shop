@@ -5,7 +5,7 @@
 <section class="h-100 gradient-custom">
   <div class="container py-5">
     <div class="row d-flex justify-content-center my-4">
-      <div class="col-md-8">
+      <div class="col-md-10"> <!-- Zmiana col-md-16 na col-md-10 -->
         <div class="card mb-4">
           <div class="card-header py-3">
             <h1 class="text-center">Your orders</h1>
@@ -13,42 +13,40 @@
           <div class="row justify-content-center">
             {% for order in orders %}
             <div class="col-md-5" style="margin: 10px;">
-            <div class="card mb-4 product-wap rounded-0">
+              <div class="card mb-4 product-wap rounded-0">
                 <div class="card rounded-0">
-                   <div class="container py-5">
-                     <ul class="w-100 list-unstyled d-center justify-content-between mb-0">
-                       <li><strong>{{ order.date }}</strong></li>
-                        <li class="pt-2">
-                        </li>
+                  <div class="container py-5">
+                    <ul class="w-100 list-unstyled d-center justify-content-between mb-0">
+                      <li><strong>{{ order.date }}</strong></li>
+                      <li class="pt-2"></li>
                     </ul>
-                     <div class="card-header py-3">
-                  <br>
-                  <p><strong>Shipping:</strong> {{ order.delivery.price }}</p>
-                  <p><strong>Address:</strong> {{ order.address }}</p>
-                  <p><strong>Status:</strong> {{ order.status }}</p>
-              <ul>
-                {% for order_item in order_items %}
-                  {% if order_item.order == order %}
-                      <li>{{ order_item.item.name }}</li>
-                      <li>Price: {{ order_item.price }}</li>
-                      <li>Quantity: {{ order_item.quantity }}</li>
-                      <li>Seller: {{ order_item.item.seller }}</li>
-                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                      <img src="{{ order_item.item.image.url }}" width="167px">
+                    <div class="card-header py-3">
+                      <br>
+                      <p><strong>Shipping:</strong> {{ order.delivery.price }}</p>
+                      <p><strong>Address:</strong> {{ order.address }}</p>
+                      <p><strong>Status:</strong> {{ order.status }}</p>
+                      <ul>
+                        {% for order_item in order_items %}
+                          {% if order_item.order == order %}
+                            <li>{{ order_item.item.name }}</li>
+                            <li>Price: {{ order_item.price }}</li>
+                            <li>Quantity: {{ order_item.quantity }}</li>
+                            <li>Seller: {{ order_item.item.seller }}</li>
+                            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                              <img src="{{ order_item.item.image.url }}" width="167px">
+                            </div>
+                            <a href="{% url 'add_review' product_id=order_item.item.id %}" class="btn btn-success btn-sm d-inline-block mr-2" style="margin: 5px;">Add opinions</a> <!-- Dodanie klasy btn-sm dla mniejszego przycisku -->
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
                     </div>
-                        <a href="{% url 'add_review' product_id=order_item.item.id %}" class="btn btn-success d-inline-block mr-2" style="margin: 5px;">Add opinions</a>
-                  {% endif %}
-                {% endfor %}
-              </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
             {% endfor %}
-                     </div>
-                   </div>
-
           </div>
         </div>
-      </div>
-    </div>
-  </div>
       </div>
     </div>
   </div>

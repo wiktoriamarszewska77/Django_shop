@@ -27,8 +27,8 @@
                     </ul>
                     <p><strong>Comment:</strong> {{ review.comment }}</p>
                    <div class="text-center">
-                       <a href="{% url 'update_review' product_id=review.product.id %}" class="btn btn-success d-inline-block mr-2" style="margin: 5px;">Update</a>
-                       <a href="{% url 'delete_review' product_id=review.product.id %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d;">Delete</a>
+                       <a href="{% url 'update_review' pk=review.id %}" class="btn btn-success d-inline-block mr-2" style="margin: 5px;">Update</a>
+                       <a href="{% url 'delete_review' pk=review.id %}" class="btn btn-danger d-inline-block" style="background: #eb0d0d;">Delete</a>
                 </div>
                 </div>
             </div>

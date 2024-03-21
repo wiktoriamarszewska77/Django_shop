@@ -6,7 +6,7 @@ from PIL import Image
 class User(AbstractUser):
     phone = models.CharField(max_length=9)
     address = models.CharField(max_length=100)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default="default.jpg", upload_to="profile_pics")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -29,4 +29,4 @@ class Company(models.Model):
     nip = models.CharField(max_length=10)
 
     def __str__(self):
-        return (f"{self.user.username} {self.name}")
+        return f"{self.user.username} {self.name}"

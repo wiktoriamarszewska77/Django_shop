@@ -1,9 +1,8 @@
 [tool.black]
 line-length = 88
-target-version = ['py3.10']
+target-version = ['py310']
 include = '\.pyi?$'
 
 [tool.ruff]
 select = ["E", "F"]
 ignore = ["E501", "E741"]
-

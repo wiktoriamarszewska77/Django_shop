@@ -6,28 +6,58 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('users', '0002_user_image'),
+        ("users", "0002_user_image"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('brand', models.CharField(max_length=100)),
-                ('category', models.CharField(choices=[('electronics', 'Electronics'), ('fashion', 'Fashion'), ('sport', 'Sport'), ('kid', 'Kid'), ('automotive', 'Automotive'), ('beauty', 'Beauty')], max_length=100)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('data_added', models.DateTimeField(default=django.utils.timezone.now)),
-                ('description', models.TextField()),
-                ('image', models.ImageField(default='no_image.jpg', upload_to='products_pics')),
-                ('stock_quantity', models.PositiveIntegerField()),
-                ('available', models.BooleanField(default=True)),
-                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.company')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("brand", models.CharField(max_length=100)),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("electronics", "Electronics"),
+                            ("fashion", "Fashion"),
+                            ("sport", "Sport"),
+                            ("kid", "Kid"),
+                            ("automotive", "Automotive"),
+                            ("beauty", "Beauty"),
+                        ],
+                        max_length=100,
+                    ),
+                ),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("data_added", models.DateTimeField(default=django.utils.timezone.now)),
+                ("description", models.TextField()),
+                (
+                    "image",
+                    models.ImageField(
+                        default="no_image.jpg", upload_to="products_pics"
+                    ),
+                ),
+                ("stock_quantity", models.PositiveIntegerField()),
+                ("available", models.BooleanField(default=True)),
+                (
+                    "seller",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="users.company"
+                    ),
+                ),
             ],
         ),
     ]
