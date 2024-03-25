@@ -6,6 +6,8 @@ from django.utils.decorators import method_decorator
 from basket.basket import Basket
 from .models import Order, OrderItem
 from django.contrib import messages
+from users.models import Company
+from django.views.generic import ListView
 
 
 @method_decorator(login_required, name="dispatch")
@@ -47,3 +49,15 @@ def order_summary_view(request):
     return render(
         request, "order_summary.html", {"orders": orders, "order_items": order_items}
     )
+
+
+@method_decorator(login_required, name="dispatch")
+class ProductsSoldView(ListView):
+    model = OrderItem
+    template_name = "products_sold.html"
+    context_object_name = "orders_sold"
+    paginate_by = 2
+
+    def get_queryset(self):
+        company = Company.objects.get(user=self.request.user)
+        return OrderItem.objects.filter(item__seller=company)
