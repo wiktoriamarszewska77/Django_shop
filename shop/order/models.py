@@ -1,7 +1,6 @@
 from django.db import models
 from users.models import User
 from products.models import Product
-from datetime import datetime
 from shipping.models import Shipping
 
 ORDER_STATUS = (
@@ -10,6 +9,7 @@ ORDER_STATUS = (
     ("canceled", "Canceled"),
 )
 
+
 class Order(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     street = models.CharField(max_length=50)
@@ -17,10 +17,10 @@ class Order(models.Model):
     postcode = models.CharField(max_length=5)
     date = models.DateTimeField(auto_now_add=True)
     delivery = models.ForeignKey(Shipping, on_delete=models.CASCADE, default=1)
-    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='expectancy')
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default="expectancy")
 
     def __str__(self):
-        formatted_date = self.date.strftime('%Y-%m-%d %H:%M')
+        formatted_date = self.date.strftime("%Y-%m-%d %H:%M")
 
         if self.buyer.first_name and self.buyer.last_name:
             return f"Order placed {formatted_date} by {self.buyer.first_name} {self.buyer.last_name} shipping {self.delivery.price}"
@@ -39,7 +39,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def get_cost(self):
-        return f' {self.price} * {self.quantity}'
+        return f" {self.price} * {self.quantity}"
 
     def __str__(self):
         return f"Order Item - {self.item} ({self.order})"

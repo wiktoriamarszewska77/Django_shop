@@ -4,10 +4,10 @@ from products.models import Product
 class Basket:
     def __init__(self, request):
         self.session = request.session
-        if 'session_key' not in self.session:
-            self.session['session_key'] = {}
+        if "session_key" not in self.session:
+            self.session["session_key"] = {}
 
-        self.basket = self.session['session_key']
+        self.basket = self.session["session_key"]
 
     def add(self, product_id: int, quantity: int):
         if product_id not in self.basket:
@@ -28,6 +28,7 @@ class Basket:
                     total = total + (product.price * value)
 
         return total
+
     def __len__(self):
         return len(self.basket)
 
@@ -52,6 +53,5 @@ class Basket:
 
     def remove_basket(self):
         self.basket = {}
-        self.session['session_key'] = {}
+        self.session["session_key"] = {}
         self.session.modified = True
-

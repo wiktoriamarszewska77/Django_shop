@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="bg-light">
+  <div class="container pb-5">
+    <div class="row">
+      <div class="col-lg-16 mt-4">
+        <div class="card">
+          <div class="card-body">
+            {% if reviews %}
+              {% for review in reviews %}
+                {% if forloop.first %}
+                  <h1 class="text-center">Reviews for "{{ review.product.name }}"</h1>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card mb-3">
+                        <img src="{{ review.product.image.url }}" style="width: 300px; height: auto; display: block; margin: 0 auto;">
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <img class="rounded-circle account-img" src="{{ review.user.image.url }}" style="width: 100px;">
+                        <h3>{{ review.user }}</h3>
+                        <p>Rating: {{ review.rating }}</p>
+                        <p>Comment: {{ review.comment }}</p>
+                        <li class="list-inline-item"><p class="text-muted"><strong>{{ review.date }}</strong></p></li>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <h2>No reviews available.</h2>
+            {% endif %}
+          </div>
+        </div>
+                <div class="row">
+    <ul class="pagination pagination-lg justify-content-end">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ num }}">{{ num }}</a>
+            </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

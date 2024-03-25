@@ -8,7 +8,7 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ["username", "email", "password1", "password2"]
 
 
 class CompanyForm(forms.ModelForm):
@@ -16,7 +16,7 @@ class CompanyForm(forms.ModelForm):
 
     class Meta:
         model = Company
-        fields = ['nip']
+        fields = ["nip"]
 
 
 class UserProfileForm(forms.ModelForm):
@@ -24,10 +24,18 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'phone', 'address', 'image']
+        fields = [
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone",
+            "address",
+            "image",
+        ]
 
 
 class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'nip']
+        fields = ["name", "nip"]

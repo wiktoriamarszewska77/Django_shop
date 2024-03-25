@@ -85,13 +85,7 @@
                         </li>
                     </ul>
                     <ul class="list-unstyled d-flex justify-content-center mb-1">
-                        <li>
-                            <i class="text-warning fa fa-star"></i>
-                            <i class="text-warning fa fa-star"></i>
-                            <i class="text-warning fa fa-star"></i>
-                            <i class="text-muted fa fa-star"></i>
-                            <i class="text-muted fa fa-star"></i>
-                        </li>
+                        <span><a href="{% url 'review_product' product_id=product.id %}">Rating {% if product.avg_rating %}{{ product.avg_rating }}{% else %}0{% endif %} | {% if product.comments_count %}{{ product.comments_count }} Comments{% else %}0 Comments{% endif %}</a></span>
                     </ul>
                     <p class="text-center mb-0">{{ product.price }}</p>
                 </div>
@@ -132,21 +126,4 @@
         {% endif %}
     </ul>
 </div>
-
-    <!--End Brands-->
-<!--<h1>List of products</h1>-->
-<!--<div class="products-container">-->
-<!--  {% for product in products %}-->
-<!--    <div class="product-item">-->
-<!--      <div class="product-image">-->
-<!--        <img src="{{ product.image.url }}" alt="{{ product.name }}">-->
-<!--      </div>-->
-<!--      <div class="product-details">-->
-<!--          <h2><a class="product-name" href="{% url 'detail-product' product.id %}">{{ product.name }}</a></h2>-->
-<!--        <p class="product-price">Price: {{ product.price }}</p>-->
-<!--        <p class="product-seller">Seller: {{ product.seller }}</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  {% endfor %}-->
-<!--</div>-->
 {% endblock %}

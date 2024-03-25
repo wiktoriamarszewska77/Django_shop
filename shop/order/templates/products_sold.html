@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Manage your profile</h1>
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'order_summary'%}">
+                        Orders
+                    </a>
+                </li>
+                {% if user.company %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'add-product'%}">
+                        Add product
+                    </a>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'user_products'%}">
+                        Your Products
+                    </a>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'products_sold'%}">
+                        Products Sold
+                    </a>
+                </li>
+                {% endif %}
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'user_reviews' %}">
+                        Reviews
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Products Sold</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for order_item in orders_sold %}
+                <div class="col-md-6">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <img class="card-img rounded-0 img-fluid" src="{{ order_item.item.image.url }}">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ order_item.item.name }}</h4>
+                            <p><strong>Price:</strong> {{ order_item.item.price }}</p>
+                        </div>
+                        <div class="card-body">
+                            <h4>Order Details</h4>
+                            <table class="table">
+                                <tr>
+                                    <th>Buyer:</th>
+                                    <td>{{ order_item.order.buyer.username }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date of Order:</th>
+                                    <td>{{ order_item.order.date }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Street:</th>
+                                    <td>{{ order_item.order.street}}</td>
+                                </tr>
+                                <tr>
+                                    <th>City:</th>
+                                    <td>{{ order_item.order.city }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Postcode:</th>
+                                    <td>{{ order_item.order.postcode }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery:</th>
+                                    <td>{{ order_item.order.delivery.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td>{{ order_item.order.status }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Content -->
+<div class="row">
+    <ul class="pagination pagination-lg justify-content-end">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ num }}">{{ num }}</a>
+            </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

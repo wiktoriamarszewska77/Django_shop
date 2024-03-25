@@ -50,10 +50,10 @@
         <div>
             <strong>Total amount</strong>
             <strong>
-                <p class="mb-0">(including VAT)</p>
+                <p class="mb-0">(including VAT 23%)</p>
             </strong>
         </div>
-        <span><strong>{{ basket.basket_total }} </strong></span>
+        <span><strong id="total-amount"></strong></span>
     </li>
 </ul>
             <p class="text-center">
@@ -72,17 +72,46 @@
 document.addEventListener('DOMContentLoaded', function() {
     const deliveryRadio = document.querySelectorAll('input[name="delivery"]');
     const shippingInfo = document.getElementById('shipping-info');
+    const totalAmount = document.getElementById('total-amount');
+    const freeDeliveryThreshold = 200.00;
+
+    function calculateTotalAmount(shippingPrice) {
+        const productsPrice = parseFloat("{{ basket.basket_total }}");
+        const vatRate = 0.23;
+        const shipping = parseFloat(shippingPrice);
+
+        let totalAmountValue;
+
+        if (productsPrice >= freeDeliveryThreshold) {
+            shippingInfo.textContent = '0.00';
+            totalAmountValue = productsPrice + (productsPrice * vatRate);
+        } else {
+            totalAmountValue = productsPrice + shipping + (productsPrice * vatRate);
+        }
+
+        totalAmount.textContent = totalAmountValue.toFixed(2);
+    }
 
     deliveryRadio.forEach(function(radio) {
         radio.addEventListener('change', function() {
-            const selectedShipping = document.querySelector('input[name="delivery"]:checked').nextElementSibling.textContent;
-            const shippingPrice = selectedShipping.match(/\d+\.\d{2}/)[0];
-            shippingInfo.textContent = shippingPrice;
-
-            var shipping_amount = shippingPrice;
-            document.getElementById("shipping-info").textContent = shipping_amount;
+            const selectedShipping = radio.nextElementSibling.textContent;
+            if (selectedShipping === 'Free delivery') {
+                shippingInfo.textContent = '0.00';
+            } else {
+                const shippingPrice = selectedShipping.match(/\d+\.\d{2}/)[0];
+                shippingInfo.textContent = shippingPrice;
+            }
+            calculateTotalAmount(shippingInfo.textContent);
         });
     });
+
+    const initialShippingPrice = document.querySelector('input[name="delivery"]:checked').nextElementSibling.textContent;
+    if (initialShippingPrice === 'Free delivery') {
+        shippingInfo.textContent = '0.00';
+    } else {
+        shippingInfo.textContent = initialShippingPrice.match(/\d+\.\d{2}/)[0];
+    }
+    calculateTotalAmount(shippingInfo.textContent);
 });
 </script>
 {% endblock %}
