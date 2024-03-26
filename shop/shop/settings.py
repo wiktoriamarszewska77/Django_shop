@@ -155,3 +155,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 LOGIN_URL = "login"
 
 LOGIN_REDIRECT_URL = "profile"
+
+CELERY_BROKER_URL = "redis://redis:6379/"
+CELERY_RESULT_BACKEND = "redis://redis:6379/"
