@@ -16,6 +16,8 @@ services:
         python manage.py runserver 0.0.0.0:8001
     depends_on:
       - postgres_db
+      - redis
+      - celery
 
   postgres_db:
     image: postgres:15-alpine
@@ -23,10 +25,25 @@ services:
       - "5432:5432"
     env_file:
       - shop/.env
-
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 30s
       retries: 6
     restart: always
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: ./shop
+    env_file:
+      - shop/.env
+    volumes:
+      - ./shop:/app
+    depends_on:
+      - postgres_db
+      - redis
+    command: celery -A shop worker -l INFO
