@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-<section class="h-100 gradient-custom">
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-3">
@@ -41,57 +39,49 @@
                     </a>
                 </li>
             </ul>
-            </div>
         </div>
-       <div class="col-lg-9">
+    <div class="col-lg-9">
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3">Your orders</a>
-
+                            <a class="h3 text-dark text-decoration-none mr-3">Your Reports</a>
                         </li>
                     </ul>
                 </div>
             </div>
-        <div class="row">
-          {% for order in orders %}
-          <div class="col-md-4">
-            <div class="card mb-4 product-wap rounded-0">
-              <div class="card rounded-0">
-                <div class="container py-5">
-                  <ul class="w-100 list-unstyled d-center justify-content-between mb-0">
-                    <li><strong>{{ order.date }}</strong></li>
-                    <li class="pt-2"></li>
-                  </ul>
-                  <div class="card-header py-3">
-                    <br>
-                    <p><strong>Shipping:</strong> {{ order.delivery.price }}</p>
-                    <p><strong>Address:</strong> {{ order.address }}</p>
-                    <p><strong>Status:</strong> {{ order.status }}</p>
-                    <ul>
-                      {% for order_item in order_items %}
-                      {% if order_item.order == order %}
-                      <li>{{ order_item.item.name }}</li>
-                      <li>Price: {{ order_item.price }}</li>
-                      <li>Quantity: {{ order_item.quantity }}</li>
-                      <li>Seller: {{ order_item.item.seller }}</li>
-                      <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                        <img src="{{ order_item.item.image.url }}" width="167px">
-                      </div>
-                      <a href="{% url 'add_review' product_id=order_item.item.id %}" class="btn btn-success btn-sm d-inline-block mr-2" style="margin: 5px;">Add opinions</a>
-                      {% endif %}
-                      {% endfor %}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
+        <ul>
+        {% for report in user_reports %}
+    <li>
+        <a href="{% url 'generate_report_view' %}" target="_blank">{{ report.id }} - Report </a>
+    </li>
+{% empty %}
+    <li>No payment reports available</li>
+{% endfor %}
+    </ul>
     </div>
-  </div>
-</section>
+    </div>
+</div>
 {% endblock %}
+
+
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>User Payment Reports</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>User Payment Reports</h1>-->
+<!--    <ul>-->
+<!--        {% for report in user_reports %}-->
+<!--            <li>-->
+<!--                <a href="{% url 'generate_report_view' %}" target="_blank">{{ report.id }} - Report</a>-->
+<!--            </li>-->
+<!--        {% empty %}-->
+<!--            <li>No payment reports available</li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--</body>-->
+<!--</html>-->
