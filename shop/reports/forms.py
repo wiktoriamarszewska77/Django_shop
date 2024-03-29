@@ -2,11 +2,11 @@ from django import forms
 
 FORMAT_CHOICES = [
     ("pdf", "PDF"),
-    ("xml", "xml"),
+    ("xlsx", "XLSX"),
 ]
 
 PARAMETERS_CHOICES = [
-    ("oder.id", "Order ID"),
+    ("order.id", "Order ID"),
     ("order.buyer", "Order Buyer"),
     ("order.street", "Order Street"),
     ("order.city", "Order City"),
@@ -25,4 +25,14 @@ class NewReportForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
     )
     report_format = forms.ChoiceField(label="Format", choices=FORMAT_CHOICES)
+    start_date = forms.DateField(
+        label="Start Date",
+        widget=forms.DateInput(attrs={"type": "date"}),
+        input_formats=["%Y-%m-%d"],
+    )
+    end_date = forms.DateField(
+        label="End Date",
+        widget=forms.DateInput(attrs={"type": "date"}),
+        input_formats=["%Y-%m-%d"],
+    )
     report_name = forms.CharField(label="Report Name", max_length=100)
