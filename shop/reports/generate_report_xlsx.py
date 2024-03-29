@@ -28,8 +28,7 @@ def generate_xlsx_report(order, report_name, data_parameters):
             ws.cell(2, row, value)
             row += 1
 
-    file_path = save_report_to_file_xlsx(wb, report_name, "xlsx")
-    return file_path
+    return wb
 
 
 def save_report_to_file_xlsx(report_data, report_name, report_format):

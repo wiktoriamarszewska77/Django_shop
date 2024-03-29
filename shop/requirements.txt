@@ -9,3 +9,4 @@ celery
 reportlab
 redis
 requests
+openpyxl
