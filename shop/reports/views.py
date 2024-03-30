@@ -29,8 +29,9 @@ def new_report_view(request):
                 end_date,
             )
             messages.success(request, "Generating a report.")
-            Report(
+            Report.objects.create(
                 name=report_name,
+                status="pending",
                 parameters={
                     "data_parameters": selected_data,
                     "report_format": report_format,
