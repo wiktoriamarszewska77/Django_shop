@@ -10,3 +10,4 @@ reportlab
 redis
 requests
 openpyxl
+djangorestframework
