@@ -6,7 +6,6 @@ from .generate_report_pdf import (
     save_report_to_file_pdf,
     filter_orders_by_date,
 )
-from .models import Report
 
 
 @shared_task
@@ -14,7 +13,6 @@ def generate_report_task(
     user_id, report_name, data_parameters, report_format, start_date, end_date
 ):
     orders = Order.objects.filter(buyer=user_id)
-    report_status = "pending"
 
     try:
         for order in orders:
@@ -34,9 +32,8 @@ def generate_report_task(
                     save_report_to_file_pdf(
                         pdf_data, f"{report_name}_{filtered_order.id}", "pdf"
                     )
-        report_status = "finished"
     except Exception:
-        report_status = "error"
+        pass
 
-    Report.objects.filter(name=report_name).update(status=report_status)
+    # Report.objects.filter(name=report_name).update(status=report_status)
     return "Generating reports completed."
