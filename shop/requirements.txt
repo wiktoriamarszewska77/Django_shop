@@ -5,3 +5,8 @@ Pillow
 bootstrap4
 crispy-bootstrap4
 python-dotenv
+celery
+reportlab
+redis
+requests
+openpyxl
