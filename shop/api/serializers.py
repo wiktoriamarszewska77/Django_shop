@@ -22,3 +22,18 @@ class ProductSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation["data_added"] = instance.data_added.strftime("%d-%m-%Y %H:%M:%S")
         return representation
+
+
+class CreateProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            "name",
+            "brand",
+            "category",
+            "price",
+            "description",
+            "image",
+            "stock_quantity",
+            "available",
+        ]
