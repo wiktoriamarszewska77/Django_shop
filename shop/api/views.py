@@ -5,12 +5,12 @@ from rest_framework.permissions import BasePermission, IsAuthenticated
 from users.models import Company
 
 
-class GetAllProducts(generics.ListAPIView):
+class GetAllProductsAPIView(generics.ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
 
-class GetDetailProduct(generics.RetrieveAPIView):
+class GetDetailProductAPIView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     queryset = Product
 
@@ -22,9 +22,30 @@ class SellerPermission(BasePermission):
         return False
 
 
-class CreateProduct(generics.CreateAPIView):
+class CreateProductAPIView(generics.CreateAPIView):
     serializer_class = CreateProductSerializer
     permission_classes = [IsAuthenticated, SellerPermission]
 
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user.company)
+
+
+class UpdateProductAPIView(generics.RetrieveUpdateAPIView):
+    serializer_class = CreateProductSerializer
+    permission_classes = [IsAuthenticated, SellerPermission]
+    queryset = Product.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(seller=self.request.user.company)
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+
+class DeleteProductAPIView(generics.RetrieveDestroyAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, SellerPermission]
+    queryset = Product.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(seller=self.request.user.company)
