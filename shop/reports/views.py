@@ -4,6 +4,7 @@ from .forms import NewReportForm
 from .tasks import generate_report_task
 from django.contrib import messages
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 def new_report_view(request):
@@ -41,6 +42,7 @@ def new_report_view(request):
     return render(request, "new_report.html", {"form": form})
 
 
+@login_required()
 def reports_view(request):
     reports = Report.objects.filter(user=request.user)
     return render(
@@ -50,7 +52,6 @@ def reports_view(request):
     )
 
 
-# report_id
 def download_report_pdf(request, report_id: int):
     report = Report.objects.get(id=report_id)
     file = report.file

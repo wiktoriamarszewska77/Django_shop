@@ -16,7 +16,7 @@ urlpatterns = [
         name="download_report_pdf",
     ),
     path(
-        "download-report_xlsx/<int:report_id>/",
+        "download-report-xlsx/<int:report_id>/",
         download_report_xlsx,
         name="download_report_xlsx",
     ),
