@@ -93,7 +93,7 @@ a:hover {
 	width: 500px;
 	border-radius: 20px;
 }
-.screen-register {
+.screen-forms {
 	background: #212934;
 	position: relative;
 	height: 950px;
@@ -105,4 +105,33 @@ a:hover {
 	z-index: 1;
 	position: relative;
 	height: 100%;
+}
+.form-group-report {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.screen-review {
+	background: #212934;
+	position: relative;
+	height: 700px;
+	width: 650px;
+	border-radius: 20px;
+}
+
+.screen-product {
+	background: #212934;
+	position: relative;
+	width: 650px;
+	border-radius: 20px;
+}
+
+.screen-delete {
+	background: #212934;
+	position: relative;
+	height: 750px;
+	width: 650px;
+	border-radius: 20px;
 }
