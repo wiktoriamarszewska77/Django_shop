@@ -1,43 +1,49 @@
 from reportlab.pdfgen import canvas
 from io import BytesIO
 from order.models import Order
-from django.conf import settings
-import os
 
 
-def generate_pdf_report(order, data_parameters):
-    report_data = []
-
-    for param in data_parameters:
-        if param == "order.id":
-            report_data.append({"param": "Order ID", "value": order.id})
-        elif param == "order.buyer":
-            report_data.append({"param": "Order Buyer", "value": order.buyer})
-        elif param == "order.street":
-            report_data.append({"param": "Order Street", "value": order.street})
-        elif param == "order.city":
-            report_data.append({"param": "Order City", "value": order.city})
-        elif param == "order.postcode":
-            report_data.append({"param": "Order Postcode", "value": order.postcode})
-        elif param == "order.date":
-            report_data.append({"param": "Order Date", "value": order.date})
-        elif param == "order.delivery.name":
-            report_data.append(
-                {"param": "Order Delivery Name", "value": order.delivery.name}
-            )
-        elif param == "order.delivery.price":
-            report_data.append(
-                {"param": "Order Delivery Price", "value": order.delivery.price}
-            )
-        elif param == "order.status":
-            report_data.append({"param": "Order Status", "value": order.status})
-
+def generate_pdf_report(orders, data_parameters):
     buffer = BytesIO()
     pdf = canvas.Canvas(buffer)
 
+    param_mapping = {
+        "order.id": "Order ID",
+        "order.buyer": "Order Buyer",
+        "order.street": "Order Street",
+        "order.city": "Order City",
+        "order.postcode": "Order Postcode",
+        "order.date": "Order Date",
+        "order.delivery.name": "Order Delivery Name",
+        "order.delivery.price": "Order Delivery Price",
+        "order.status": "Order Status",
+    }
+
     y_position = 800
-    for data in report_data:
-        pdf.drawString(100, y_position, f"{data['param']}: {data['value']}")
+
+    for order in orders:
+        for param in data_parameters:
+            if param in param_mapping:
+                if param == "order.delivery.name":
+                    pdf.drawString(
+                        100,
+                        y_position,
+                        f"{param_mapping[param]}: {order.delivery.name}",
+                    )
+                elif param == "order.delivery.price":
+                    pdf.drawString(
+                        100,
+                        y_position,
+                        f"{param_mapping[param]}: {order.delivery.price}",
+                    )
+                else:
+                    pdf.drawString(
+                        100,
+                        y_position,
+                        f"{param_mapping[param]}: {getattr(order, param.split('.')[1])}",
+                    )
+                y_position -= 20
+
         y_position -= 20
 
     pdf.save()
@@ -47,17 +53,6 @@ def generate_pdf_report(order, data_parameters):
     return pdf_data
 
 
-def filter_orders_by_date(order, start_date, end_date):
-    return Order.objects.filter(buyer=order.buyer, date__range=[start_date, end_date])
-
-
-def save_report_to_file_pdf(report_data, report_name, report_format):
-    user_folder = os.path.join(settings.MEDIA_ROOT, "reports")
-    if not os.path.exists(user_folder):
-        os.makedirs(user_folder)
-
-    filename = f"{report_name}.{report_format}"
-    file_path = os.path.join(user_folder, filename)
-
-    with open(file_path, "wb") as file:
-        file.write(report_data)
+def filter_orders_by_date(start_date, end_date, user_id):
+    orders = Order.objects.filter(date__range=(start_date, end_date), buyer=user_id)
+    return orders

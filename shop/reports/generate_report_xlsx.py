@@ -1,43 +1,54 @@
 from openpyxl import Workbook
 from openpyxl.styles import Alignment
-import os
-from django.conf import settings
+from order.models import Order
+from io import BytesIO
 
 
-def generate_xlsx_report(order, report_name, data_parameters):
+def generate_xlsx_report(orders, data_parameters):
     wb = Workbook()
     ws = wb.active
 
     headers_data = {
-        "order.id": ("Order ID", order.id),
-        "order.buyer": ("Order Buyer", order.buyer.username),
-        "order.street": ("Order Street", order.street),
-        "order.city": ("Order City", order.city),
-        "order.postcode": ("Order Postcode", order.postcode),
-        "order.date": ("Order Date", order.date.replace(tzinfo=None)),
-        "order.delivery.name": ("Order Delivery Name", order.delivery.name),
-        "order.delivery.price": ("Order Delivery Price", order.delivery.price),
-        "order.status": ("Order Status", order.status),
+        "order.id": ("Order ID", lambda order: order.id),
+        "order.buyer": ("Order Buyer", lambda order: order.buyer.username),
+        "order.street": ("Order Street", lambda order: order.street),
+        "order.city": ("Order City", lambda order: order.city),
+        "order.postcode": ("Order Postcode", lambda order: order.postcode),
+        "order.date": ("Order Date", lambda order: order.date.replace(tzinfo=None)),
+        "order.delivery.name": (
+            "Order Delivery Name",
+            lambda order: order.delivery.name,
+        ),
+        "order.delivery.price": (
+            "Order Delivery Price",
+            lambda order: order.delivery.price,
+        ),
+        "order.status": ("Order Status", lambda order: order.status),
     }
 
-    row = 1
-    for param in data_parameters:
-        if param in headers_data:
-            header, value = headers_data[param]
-            ws.cell(1, row, header).alignment = Alignment(horizontal="center")
-            ws.cell(2, row, value)
-            row += 1
+    for col, (header_key, (header, _)) in enumerate(headers_data.items(), start=1):
+        ws.cell(row=1, column=col, value=header)
+        ws.cell(row=1, column=col).alignment = Alignment(horizontal="center")
 
-    return wb
+    for row, order in enumerate(orders, start=2):
+        for col, (header_key, (_, get_value)) in enumerate(
+            headers_data.items(), start=1
+        ):
+            if header_key in data_parameters:
+                value = get_value(order)
+                ws.cell(row=row, column=col, value=value)
+
+    buffer = BytesIO()
+    wb.save(buffer)
+
+    buffer.seek(0)
+    binary_data = buffer.read()
+
+    buffer.close()
+
+    return binary_data
 
 
-def save_report_to_file_xlsx(report_data, report_name, report_format):
-    user_folder = os.path.join(settings.MEDIA_ROOT, "reports")
-    if not os.path.exists(user_folder):
-        os.makedirs(user_folder)
-
-    filename = f"{report_name}.{report_format}"
-    file_path = os.path.join(user_folder, filename)
-
-    report_data.save(file_path)
-    return file_path
+def filter_orders_by_date(start_date, end_date, user_id):
+    orders = Order.objects.filter(date__range=(start_date, end_date), buyer=user_id)
+    return orders

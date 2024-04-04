@@ -1,39 +1,28 @@
 from celery import shared_task
-from order.models import Order
-from .generate_report_xlsx import generate_xlsx_report, save_report_to_file_xlsx
+from .generate_report_xlsx import generate_xlsx_report
 from .generate_report_pdf import (
     generate_pdf_report,
-    save_report_to_file_pdf,
     filter_orders_by_date,
 )
+from .models import Report
+from django.core.files.base import ContentFile
 
 
 @shared_task
 def generate_report_task(
-    user_id, report_name, data_parameters, report_format, start_date, end_date
+    user_id, report_id, data_parameters, report_format, start_date, end_date
 ):
-    orders = Order.objects.filter(buyer=user_id)
+    report = Report.objects.get(id=report_id)
+    orders = filter_orders_by_date(start_date, end_date, user_id)
 
-    try:
-        for order in orders:
-            filtered_orders = filter_orders_by_date(order, start_date, end_date)
-            if report_format == "xlsx":
-                for filtered_order in filtered_orders:
-                    wb = generate_xlsx_report(
-                        filtered_order, report_name, data_parameters
-                    )
-                    save_report_to_file_xlsx(
-                        wb, f"{report_name}_{filtered_order.id}", "xlsx"
-                    )
+    if report_format == "pdf":
+        pdf_data = generate_pdf_report(orders, data_parameters)
+        report.file.save(f"{report.name}.pdf", ContentFile(pdf_data))
+    elif report_format == "xlsx":
+        wb = generate_xlsx_report(orders, data_parameters)
+        report.file.save(f"{report.name}.xlsx", ContentFile(wb))
 
-            elif report_format == "pdf":
-                for filtered_order in filtered_orders:
-                    pdf_data = generate_pdf_report(filtered_order, data_parameters)
-                    save_report_to_file_pdf(
-                        pdf_data, f"{report_name}_{filtered_order.id}", "pdf"
-                    )
-    except Exception:
-        pass
+    report.status = "finished"
+    report.save()
 
-    # Report.objects.filter(name=report_name).update(status=report_status)
-    return "Generating reports completed."
+    return "Generating report completed."
