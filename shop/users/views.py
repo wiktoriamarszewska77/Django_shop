@@ -80,3 +80,7 @@ class ProfileView(View):
             "profile.html",
             context={"user_form": user_form, "company_form": company_form},
         )
+
+
+def handler404(request, exception):
+    return render(request, "404.html", status=404)
