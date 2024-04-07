@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "reports",
     "api",
     "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,11 @@ LOGIN_REDIRECT_URL = "profile"
 
 CELERY_BROKER_URL = "redis://redis:6379/"
 CELERY_RESULT_BACKEND = "redis://redis:6379/"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
