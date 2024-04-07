@@ -2,6 +2,7 @@ from rest_framework import serializers
 from products.models import Product
 from review.models import Review
 from rest_framework.response import Response
+from order.models import OrderItem
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -55,3 +56,9 @@ class AverageRatingProductSerializer(serializers.Serializer):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class ProductsSoldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ["id", "item", "price", "quantity"]

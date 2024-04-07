@@ -5,6 +5,7 @@ from api.serializers import (
     CreateProductSerializer,
     ReviewProductSerializer,
     AverageRatingProductSerializer,
+    ProductsSoldSerializer,
 )
 from products.models import Product
 from rest_framework.permissions import BasePermission
@@ -12,6 +13,7 @@ from users.models import Company
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from review.models import Review
 from django.db.models import Avg
+from order.models import OrderItem
 
 
 class GetAllProductsAPIView(generics.ListAPIView):
@@ -77,3 +79,12 @@ class AverageRatingProductViewSet(
 ):
     queryset = Review.objects.values("product").annotate(avg_rating=Avg("rating"))
     serializer_class = AverageRatingProductSerializer
+
+
+class ProductsSoldViewSet(mixins.ListModelMixin, GenericViewSet):
+    serializer_class = ProductsSoldSerializer
+
+    def get_queryset(self):
+        company = Company.objects.get(user=self.request.user)
+        queryset = OrderItem.objects.filter(item__seller=company)
+        return queryset
