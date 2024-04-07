@@ -9,6 +9,7 @@ from .views import (
     ReviewProductViewSet,
     AverageRatingProductViewSet,
     ProductsSoldViewSet,
+    UserProductsViewSet,
 )
 
 router = routers.DefaultRouter()
@@ -18,6 +19,7 @@ router.register(
     "average/rating", AverageRatingProductViewSet, basename="average_rating"
 )
 router.register("products/sold", ProductsSoldViewSet, basename="products_sold")
+router.register("user/products", UserProductsViewSet, basename="user_products")
 
 urlpatterns = [
     path("products/", GetAllProductsAPIView.as_view(), name="get_products"),

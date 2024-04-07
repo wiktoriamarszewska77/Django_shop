@@ -6,6 +6,7 @@ from api.serializers import (
     ReviewProductSerializer,
     AverageRatingProductSerializer,
     ProductsSoldSerializer,
+    UserProductsSerializer,
 )
 from products.models import Product
 from rest_framework.permissions import BasePermission
@@ -14,6 +15,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from review.models import Review
 from django.db.models import Avg
 from order.models import OrderItem
+from django.shortcuts import get_object_or_404
 
 
 class GetAllProductsAPIView(generics.ListAPIView):
@@ -88,3 +90,12 @@ class ProductsSoldViewSet(mixins.ListModelMixin, GenericViewSet):
         company = Company.objects.get(user=self.request.user)
         queryset = OrderItem.objects.filter(item__seller=company)
         return queryset
+
+
+class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
+    serializer_class = UserProductsSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        company = get_object_or_404(Company, user=user)
+        return Product.objects.filter(seller=company)

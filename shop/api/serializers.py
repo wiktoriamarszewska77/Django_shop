@@ -62,3 +62,19 @@ class ProductsSoldSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = ["id", "item", "price", "quantity"]
+
+
+class UserProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            "name",
+            "brand",
+            "category",
+            "price",
+            "data_added",
+            "description",
+            "image",
+            "stock_quantity",
+            "available",
+        ]
