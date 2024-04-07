@@ -2,7 +2,7 @@ from rest_framework import serializers
 from products.models import Product
 from review.models import Review
 from rest_framework.response import Response
-from order.models import OrderItem
+from order.models import OrderItem, Order
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -58,10 +58,16 @@ class AverageRatingProductSerializer(serializers.Serializer):
         return Response(serializer.data)
 
 
-class ProductsSoldSerializer(serializers.ModelSerializer):
+class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = ["id", "item", "price", "quantity"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["buyer", "street", "city", "postcode", "date", "delivery", "status"]
 
 
 class UserProductsSerializer(serializers.ModelSerializer):

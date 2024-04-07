@@ -5,7 +5,8 @@ from api.serializers import (
     CreateProductSerializer,
     ReviewProductSerializer,
     AverageRatingProductSerializer,
-    ProductsSoldSerializer,
+    OrderItemSerializer,
+    OrderSerializer,
     UserProductsSerializer,
 )
 from products.models import Product
@@ -14,8 +15,9 @@ from users.models import Company
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from review.models import Review
 from django.db.models import Avg
-from order.models import OrderItem
+from order.models import OrderItem, Order
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 
 
 class GetAllProductsAPIView(generics.ListAPIView):
@@ -84,10 +86,10 @@ class AverageRatingProductViewSet(
 
 
 class ProductsSoldViewSet(mixins.ListModelMixin, GenericViewSet):
-    serializer_class = ProductsSoldSerializer
+    serializer_class = OrderItemSerializer
 
     def get_queryset(self):
-        company = Company.objects.get(user=self.request.user)
+        company = get_object_or_404(Company, user=self.request.user)
         queryset = OrderItem.objects.filter(item__seller=company)
         return queryset
 
@@ -99,3 +101,22 @@ class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
         user = self.request.user
         company = get_object_or_404(Company, user=user)
         return Product.objects.filter(seller=company)
+
+
+class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
+    serializer_class = OrderItemSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = OrderItem.objects.filter(order__buyer=user)
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        user = request.user
+        orders = Order.objects.filter(buyer=user)
+        orders_item = self.get_queryset()
+        order_data = OrderSerializer(orders, many=True).data
+        order_items_data = OrderItemSerializer(orders_item, many=True).data
+
+        response_data = {"orders": order_data, "order_items": order_items_data}
+        return Response(response_data)
