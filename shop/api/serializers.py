@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from products.models import Product
+from review.models import Review
+from rest_framework.response import Response
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -37,3 +39,19 @@ class CreateProductSerializer(serializers.ModelSerializer):
             "stock_quantity",
             "available",
         ]
+
+
+class ReviewProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "user", "product", "date", "comment", "rating"]
+
+
+class AverageRatingProductSerializer(serializers.Serializer):
+    product = serializers.IntegerField()
+    avg_rating = serializers.FloatField()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
