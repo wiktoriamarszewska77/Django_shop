@@ -11,6 +11,9 @@ from .views import (
     ProductsSoldViewSet,
     UserProductsViewSet,
     ProductsOrdered,
+    ReportsViewSet,
+    download_report_pdf,
+    download_report_xlsx,
 )
 
 router = routers.DefaultRouter()
@@ -21,7 +24,8 @@ router.register(
 )
 router.register("products/sold", ProductsSoldViewSet, basename="products_sold")
 router.register("user/products", UserProductsViewSet, basename="user_products")
-router.register("products/ordered", ProductsOrdered, basename="products/ordered")
+router.register("products/ordered", ProductsOrdered, basename="products_ordered")
+router.register("reports", ReportsViewSet, basename="reports")
 
 urlpatterns = [
     path("products/", GetAllProductsAPIView.as_view(), name="get_products"),
@@ -40,5 +44,15 @@ urlpatterns = [
         "delete/product/<int:pk>/",
         DeleteProductAPIView.as_view(),
         name="delete_product",
+    ),
+    path(
+        "download-report-pdf/<int:report_id>/",
+        download_report_pdf,
+        name="download_report_pdf",
+    ),
+    path(
+        "download-report-xlsx/<int:report_id>/",
+        download_report_xlsx,
+        name="download_report_xlsx",
     ),
 ] + router.urls

@@ -3,6 +3,7 @@ from products.models import Product
 from review.models import Review
 from rest_framework.response import Response
 from order.models import OrderItem, Order
+from reports.models import Report
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -84,3 +85,9 @@ class UserProductsSerializer(serializers.ModelSerializer):
             "stock_quantity",
             "available",
         ]
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ["id", "name", "creation_date", "status", "parameters"]
