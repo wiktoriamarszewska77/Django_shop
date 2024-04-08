@@ -1,6 +1,7 @@
 from rest_framework import routers
 from django.urls import path
 from .views import (
+    LoginAPIView,
     GetAllProductsAPIView,
     GetDetailProductAPIView,
     CreateProductAPIView,
@@ -28,6 +29,7 @@ router.register("products/ordered", ProductsOrdered, basename="products_ordered"
 router.register("reports", ReportsViewSet, basename="reports")
 
 urlpatterns = [
+    path("loginup/", LoginAPIView.as_view(), name="loginup"),
     path("products/", GetAllProductsAPIView.as_view(), name="get_products"),
     path(
         "product/<int:pk>/",

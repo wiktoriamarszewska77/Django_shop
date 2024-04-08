@@ -22,6 +22,29 @@ from rest_framework.response import Response
 from reports.models import Report
 from rest_framework.decorators import api_view
 from django.http import HttpResponse
+from rest_framework.views import APIView
+from django.contrib.auth import authenticate
+
+
+class LoginAPIView(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        content = {"user": str(request.user), "auth": str(request.auth)}
+        return Response(data=content, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            response = {"message": "Login Successfully", "token": user.auth_token.key}
+            return Response(data=response, status=status.HTTP_200_OK)
+
+        else:
+            return Response(data={"message": "Invalid username or password"})
 
 
 class GetAllProductsAPIView(generics.ListAPIView):
