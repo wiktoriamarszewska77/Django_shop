@@ -87,6 +87,19 @@ class UserProductsSerializer(serializers.ModelSerializer):
         ]
 
 
+class NewReportSerializer(serializers.Serializer):
+    data_parameters = serializers.JSONField()
+    report_format = serializers.ChoiceField(choices=["pdf", "xlsx"])
+    start_date = serializers.DateField()
+    end_date = serializers.DateField()
+    report_name = serializers.CharField(max_length=100)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["data_parameters"] = list(data.get("data_parameters", []))
+        return data
+
+
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report

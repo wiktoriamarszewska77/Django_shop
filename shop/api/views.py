@@ -8,6 +8,7 @@ from api.serializers import (
     OrderItemSerializer,
     OrderSerializer,
     UserProductsSerializer,
+    NewReportSerializer,
     ReportSerializer,
 )
 from products.models import Product
@@ -24,6 +25,7 @@ from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
+from reports.tasks import generate_report_task
 
 
 class LoginAPIView(APIView):
@@ -147,6 +149,39 @@ class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
 
         response_data = {"orders": order_data, "order_items": order_items_data}
         return Response(response_data)
+
+
+class NewReportAPIView(generics.CreateAPIView):
+    serializer_class = NewReportSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user_id = request.user.id
+        data_parameters = serializer.validated_data["data_parameters"][
+            "data_parameters"
+        ]
+        report_format = serializer.validated_data["report_format"]
+        start_date = serializer.validated_data["start_date"]
+        end_date = serializer.validated_data["end_date"]
+        report_name = serializer.validated_data["report_name"]
+
+        report = Report.objects.create(
+            user_id=user_id,
+            name=report_name,
+            status="pending",
+            parameters={
+                "data_parameters": data_parameters,
+                "report_format": report_format,
+                "start_date": start_date.isoformat(),
+                "end_date": end_date.isoformat(),
+            },
+        )
+
+        generate_report_task.delay(
+            user_id, report.id, data_parameters, report_format, start_date, end_date
+        )
+        return Response({"message": "Generating a report"}, status=status.HTTP_200_OK)
 
 
 class ReportsViewSet(mixins.ListModelMixin, GenericViewSet):

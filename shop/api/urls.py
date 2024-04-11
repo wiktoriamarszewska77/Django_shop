@@ -12,6 +12,7 @@ from .views import (
     ProductsSoldViewSet,
     UserProductsViewSet,
     ProductsOrdered,
+    NewReportAPIView,
     ReportsViewSet,
     download_report_pdf,
     download_report_xlsx,
@@ -47,6 +48,7 @@ urlpatterns = [
         DeleteProductAPIView.as_view(),
         name="delete_product",
     ),
+    path("new/report/", NewReportAPIView.as_view(), name="new_report"),
     path(
         "download-report-pdf/<int:report_id>/",
         download_report_pdf,
