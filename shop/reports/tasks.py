@@ -1,9 +1,5 @@
 from celery import shared_task
-from .generate_report_xlsx import generate_xlsx_report
-from .generate_report_pdf import (
-    generate_pdf_report,
-    filter_orders_by_date,
-)
+from .generators import generate_pdf_report, generate_xlsx_report, filter_orders_by_date
 from .models import Report
 from django.core.files.base import ContentFile
 import sentry_sdk
