@@ -1,3 +1,4 @@
+<title>Reports - Django Shop</title>
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -34,6 +35,11 @@
                     </a>
                 </li>
                 <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'new_report_view' %}">
+                        New Report
+                    </a>
+                </li>
+                <li class="pb-3">
                     <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'reports_view' %}">
                         Reports
                     </a>
@@ -58,6 +64,7 @@
             <th>Creation Date</th>
             <th>Status</th>
             <th>Actions</th>
+            <th>Download</th>
         </tr>
     </thead>
     <tbody>
@@ -67,10 +74,14 @@
             <td>{{ report.name }}</td>
             <td>{{ report.creation_date }}</td>
             <td>{{ report.status }}</td>
+            <td>{{ report.parameters.report_format }}</td>
             <td>
-                <a href="{% url 'download_report_pdf' report_name=report.name %}">Download PDF</a>
-                <a href="{% url 'download_report_xlsx' report_name=report.name %}">Download XLSX</a>
-            </td>
+            {% if report.parameters.report_format == "pdf" %}
+                <a href="{% url 'download_report_pdf' report_id=report.id %}"><img src="/media/icon-pdf.png"></a>
+            {% elif report.parameters.report_format == "xlsx" %}
+                <a href="{% url 'download_report_xlsx' report_id=report.id %}"><img src="/media/icon-excel.png"></a>
+            {% endif %}
+        </td>
         </tr>
         {% empty %}
         <tr>

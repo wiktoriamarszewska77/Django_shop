@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import sentry_sdk
 
 load_dotenv()
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,7 +49,11 @@ INSTALLED_APPS = [
     "shipping",
     "payment",
     "review",
-    'reports',
+    "reports",
+    "api",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -140,7 +144,6 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
-
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "/media/"
 
@@ -159,3 +162,23 @@ LOGIN_REDIRECT_URL = "profile"
 
 CELERY_BROKER_URL = "redis://redis:6379/"
 CELERY_RESULT_BACKEND = "redis://redis:6379/"
+
+REST_FRAMEWORK = {
+    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Django_shop DRF",
+}
+
+sentry_sdk.init(
+    dsn=os.getenv("dsn"),
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)

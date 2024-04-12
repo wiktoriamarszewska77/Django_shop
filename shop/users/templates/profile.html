@@ -39,27 +39,39 @@
                         New Report
                     </a>
                 </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="{% url 'reports_view' %}">
+                        Reports
+                    </a>
+                </li>
             </ul>
         </div>
-<div class="content-section">
-    <div class="media>">
-        <img class="rounded-circle account-img" src="{{ user.image.url }}">
-        <div class="media-body">
-            <h2 class="account-heading"> {{ user.username }}</h2>
+
+        <div class="col-lg-7" style="margin-left: 150px;">
+            <div class="container rounded bg-white mt-4 mb-4" style="color: #fff;">
+                <div class="row">
+                    <div class="col-md-6 border-right" style="background: #212934;">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <img class="rounded-circle mt-5" width="150px" src="{{ user.image.url }}">
+                            <span class="font-weight-bold">{{ user.username }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="background:  #DCDCDC; color: black; ">
+                        <div class="p-3 py-5">
+                            <h4 class="text-right">Profile Settings</h4>
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row mt-2">
+                                    {{ user_form|crispy }}
+                                    {{ company_form|crispy }}
+                                </div>
+                                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form_group">
-            <legend class="border-bottom mb4">Profile info!</legend>
-            {{ user_form|crispy }}
-            {{ company_form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>
-    </form>
-</div>
     </div>
 </div>
 {% endblock %}

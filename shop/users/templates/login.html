@@ -1,22 +1,22 @@
 <title>Login - Django Shop</title>
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
-	  <form method="POST">
+<div class="container-forms-data">
+	<div class="screen-login">
+		<div class="screen__content">
+			<form method="POST" style="color: #fff;">
 	  	{% csrf_token %}
-		  <fieldset class="form-group">
+		  <fieldset style="border: #212934;" class="form-group-login">
 			  <legend class="border-bottom mb-4"> Log in!</legend>
 			  {{ form|crispy }}
 		  </fieldset>
-		<div class="form-group">
+		<div class="form-group text-center">
 			<button class="btn btn-outline-info" type="submit">Login</button>
 		</div>
 	  </form>
-	  <div class="border-top pt-3">
-		  <small class="text-muted">
-			  Have a account? <a href="{% url 'register' %}">Register</a>
-		  </small>
-	  </div>
+		</div>
+	</div>
 </div>
 {% endblock %}

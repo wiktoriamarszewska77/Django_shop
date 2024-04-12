@@ -1,18 +1,24 @@
+<title>Delete Product - Django Shop</title>
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Delete Product</legend>
-            <img src="{{ product.image.url }}">
-            <h3>Are you sure you want to delete {{ object.name }}</h3>
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-danger" type="submit">Yes</button>
+<div class="container-forms-data">
+	<div class="screen-delete">
+		<div class="screen__content">
+            <form method="POST" style="color: #fff;">
+	  	    {% csrf_token %}
+		  <fieldset style="border: #212934;" class="form-group-report">
+			  <legend class="border-bottom mb-4">Delete Product</legend>
+                <img src="{{ product.image.url }}">
+		  </fieldset>
+		<div class="form-group text-center">
+            <h3>Are you sure you want to delete "{{ object.name }}"?</h3>
+            <button class="btn btn-outline-danger" style="background: red;" type="submit">Yes</button>
             <a class="btn btn-outline-secondary" href="{% url 'detail-product' object.id %}">Cancel</a>
         </div>
     </form>
+</div>
+    </div>
 </div>
 {% endblock %}
