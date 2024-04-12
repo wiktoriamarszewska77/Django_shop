@@ -26,6 +26,8 @@ from django.http import HttpResponse
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from reports.tasks import generate_report_task
+from rest_framework import viewsets
+from django.core.exceptions import PermissionDenied
 
 
 class LoginAPIView(APIView):
@@ -49,10 +51,17 @@ class LoginAPIView(APIView):
             return Response(data={"message": "Invalid username or password"})
 
 
-class GetAllProductsAPIView(generics.ListAPIView):
+class GetAllOrDetailProductsViewSet(
+    mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet
+):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class GetDetailProductAPIView(generics.RetrieveAPIView):
@@ -68,33 +77,27 @@ class SellerPermission(BasePermission):
         return False
 
 
-class CreateProductAPIView(generics.CreateAPIView):
-    serializer_class = CreateProductSerializer
-    permission_classes = [SellerPermission]
-
-    def perform_create(self, serializer):
-        serializer.save(seller=self.request.user.company)
-
-
-class UpdateProductAPIView(generics.RetrieveUpdateAPIView):
-    serializer_class = CreateProductSerializer
-    permission_classes = [SellerPermission]
-    queryset = Product.objects.all()
-
-    def get_queryset(self):
-        return self.queryset.filter(seller=self.request.user.company)
-
-    def perform_update(self, serializer):
-        serializer.save()
-
-
-class DeleteProductAPIView(generics.RetrieveDestroyAPIView):
+class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [SellerPermission]
     queryset = Product.objects.all()
 
     def get_queryset(self):
         return self.queryset.filter(seller=self.request.user.company)
+
+    def perform_create(self, serializer):
+        serializer.save(seller=self.request.user.company)
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+    def get_serializer_class(self):
+        if self.action == "create" or self.action == "update":
+            return CreateProductSerializer
+        return ProductSerializer
 
 
 class ReviewProductViewSet(
@@ -127,9 +130,11 @@ class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = UserProductsSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        company = get_object_or_404(Company, user=user)
-        return Product.objects.filter(seller=company)
+        if self.request.user.is_authenticated:
+            company = get_object_or_404(Company, user=self.request.user)
+            return Product.objects.filter(seller=company)
+        else:
+            raise PermissionDenied("Authentication credentials were not provided.")
 
 
 class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
@@ -151,7 +156,7 @@ class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
         return Response(response_data)
 
 
-class NewReportAPIView(generics.CreateAPIView):
+class NewReportViewSet(generics.CreateAPIView, mixins.CreateModelMixin, GenericViewSet):
     serializer_class = NewReportSerializer
 
     def create(self, request, *args, **kwargs):
@@ -188,8 +193,11 @@ class ReportsViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = ReportSerializer
 
     def get_queryset(self):
-        queryset = Report.objects.filter(user=self.request.user)
-        return queryset
+        if self.request.user.is_authenticated:
+            queryset = Report.objects.filter(user=self.request.user)
+            return queryset
+        else:
+            raise PermissionDenied("Authentication credentials were not provided.")
 
 
 @api_view(["GET"])

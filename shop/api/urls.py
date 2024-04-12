@@ -2,53 +2,38 @@ from rest_framework import routers
 from django.urls import path
 from .views import (
     LoginAPIView,
-    GetAllProductsAPIView,
-    GetDetailProductAPIView,
-    CreateProductAPIView,
-    UpdateProductAPIView,
-    DeleteProductAPIView,
+    ProductViewSet,
+    GetAllOrDetailProductsViewSet,
     ReviewProductViewSet,
     AverageRatingProductViewSet,
     ProductsSoldViewSet,
     UserProductsViewSet,
     ProductsOrdered,
-    NewReportAPIView,
+    NewReportViewSet,
     ReportsViewSet,
     download_report_pdf,
     download_report_xlsx,
 )
 
 router = routers.DefaultRouter()
-
+router.register("actions-products", ProductViewSet, basename="actions-products")
+router.register(
+    "get-all-or-detail-products",
+    GetAllOrDetailProductsViewSet,
+    basename="get-all-or-detail-products",
+)
 router.register("review", ReviewProductViewSet, basename="review")
 router.register(
-    "average/rating", AverageRatingProductViewSet, basename="average_rating"
+    "average-rating", AverageRatingProductViewSet, basename="average-rating"
 )
-router.register("products/sold", ProductsSoldViewSet, basename="products_sold")
-router.register("user/products", UserProductsViewSet, basename="user_products")
-router.register("products/ordered", ProductsOrdered, basename="products_ordered")
+router.register("products-sold", ProductsSoldViewSet, basename="products-sold")
+router.register("user-products", UserProductsViewSet, basename="user-products")
+router.register("products-ordered", ProductsOrdered, basename="products-ordered")
+router.register("new-report", NewReportViewSet, basename="new-report")
 router.register("reports", ReportsViewSet, basename="reports")
 
 urlpatterns = [
     path("loginup/", LoginAPIView.as_view(), name="loginup"),
-    path("products/", GetAllProductsAPIView.as_view(), name="get_products"),
-    path(
-        "product/<int:pk>/",
-        GetDetailProductAPIView.as_view(),
-        name="get_detail_product",
-    ),
-    path("create/product/", CreateProductAPIView.as_view(), name="create_product"),
-    path(
-        "update/product/<int:pk>/",
-        UpdateProductAPIView.as_view(),
-        name="update_product",
-    ),
-    path(
-        "delete/product/<int:pk>/",
-        DeleteProductAPIView.as_view(),
-        name="delete_product",
-    ),
-    path("new/report/", NewReportAPIView.as_view(), name="new_report"),
     path(
         "download-report-pdf/<int:report_id>/",
         download_report_pdf,
