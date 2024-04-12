@@ -12,3 +12,4 @@ requests
 openpyxl
 djangorestframework
 sentry-sdk
+drf_spectacular

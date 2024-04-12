@@ -1,5 +1,10 @@
 from rest_framework import routers
 from django.urls import path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
 from .views import (
     LoginAPIView,
     ProductViewSet,
@@ -43,5 +48,10 @@ urlpatterns = [
         "download-report-xlsx/<int:report_id>/",
         download_report_xlsx,
         name="download_report_xlsx",
+    ),
+    path("schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("schema/docs/", SpectacularSwaggerView.as_view(url_name="schema")),
+    path(
+        "schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
     ),
 ] + router.urls
