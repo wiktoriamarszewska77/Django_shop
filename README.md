@@ -42,9 +42,6 @@ Web application created based on the Django framework in Python. The application
 ## ⌛Status:
 The project is in its final phase. Application tests will be added soon.
 
-## Screenshots:
-![Alt text](file:///C:/Users/Dell/Desktop/screenshot.png)
-
 
 ## 💿 Installation:
 
