@@ -13,3 +13,6 @@ openpyxl
 djangorestframework
 sentry-sdk
 drf_spectacular
+pytest-django
+pytest
+factory_boy
