@@ -23,9 +23,9 @@ from .views import (
 router = routers.DefaultRouter()
 router.register("actions-products", ProductViewSet, basename="actions-products")
 router.register(
-    "get-all-or-detail-products",
+    "get-products",
     GetAllOrDetailProductsViewSet,
-    basename="get-all-or-detail-products",
+    basename="get-products",
 )
 router.register("review", ReviewProductViewSet, basename="review")
 router.register(

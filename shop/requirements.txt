@@ -16,3 +16,4 @@ drf_spectacular
 pytest-django
 pytest
 factory_boy
+model-bakery
