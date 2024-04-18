@@ -12,7 +12,6 @@ from api.serializers import (
     ReportSerializer,
 )
 from products.models import Product
-from rest_framework.permissions import BasePermission
 from users.models import Company
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from review.models import Review
@@ -28,6 +27,7 @@ from django.contrib.auth import authenticate
 from reports.tasks import generate_report_task
 from rest_framework import viewsets
 from django.core.exceptions import PermissionDenied
+from .permissions import SellerPermission
 
 
 class LoginAPIView(APIView):
@@ -70,13 +70,6 @@ class GetDetailProductAPIView(generics.RetrieveAPIView):
     queryset = Product
 
 
-class SellerPermission(BasePermission):
-    def has_permission(self, request, view):
-        if request.user.is_authenticated:
-            return Company.objects.filter(user=request.user).exists()
-        return False
-
-
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [SellerPermission]
@@ -95,7 +88,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         instance.delete()
 
     def get_serializer_class(self):
-        if self.action == "create" or self.action == "update":
+        if self.action in ["create", "update"]:
             return CreateProductSerializer
         return ProductSerializer
 
@@ -198,6 +191,15 @@ class ReportsViewSet(mixins.ListModelMixin, GenericViewSet):
             return queryset
         else:
             raise PermissionDenied("Authentication credentials were not provided.")
+
+
+# # /reports
+# class ReportsViewSet(GenericViewSet):
+#
+#     # /reports/download_pdf
+#     @action(detail=False, methods=['get'])
+#     def download_pdf(self, request, report_id):
+#         pass
 
 
 @api_view(["GET"])
