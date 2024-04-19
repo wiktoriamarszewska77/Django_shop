@@ -63,8 +63,8 @@ def shipping():
 
 
 @pytest.fixture
-def order(shipping):
-    return baker.make(Order, delivery=shipping)
+def order(user, shipping):
+    return baker.make(Order, buyer=user, delivery=shipping)
 
 
 @pytest.fixture
