@@ -20,7 +20,6 @@ from order.models import OrderItem, Order
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from reports.models import Report
-from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
@@ -193,38 +192,33 @@ class ReportsViewSet(mixins.ListModelMixin, GenericViewSet):
             raise PermissionDenied("Authentication credentials were not provided.")
 
 
-# # /reports
-# class ReportsViewSet(GenericViewSet):
-#
-#     # /reports/download_pdf
-#     @action(detail=False, methods=['get'])
-#     def download_pdf(self, request, report_id):
-#         pass
+class DownloadReportPDF(APIView):
+    def get(self, request, report_id):
+        try:
+            report = Report.objects.get(id=report_id)
+        except Report.DoesNotExist:
+            return Response(
+                {"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        file = report.file
+
+        response = HttpResponse(file, content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="{report.name}.pdf"'
+        return response
 
 
-@api_view(["GET"])
-def download_report_pdf(request, report_id):
-    try:
-        report = Report.objects.get(id=report_id)
-    except Report.DoesNotExist:
-        return Response({"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND)
+class DownloadReportXLSX(APIView):
+    def get(self, request, report_id):
+        try:
+            report = Report.objects.get(id=report_id)
+        except Report.DoesNotExist:
+            return Response(
+                {"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND
+            )
 
-    file = report.file
+        file = report.file
 
-    response = HttpResponse(file, content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="{report.name}.pdf"'
-    return response
-
-
-@api_view(["GET"])
-def download_report_xlsx(request, report_id):
-    try:
-        report = Report.objects.get(id=report_id)
-    except Report.DoesNotExist:
-        return Response({"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    file = report.file
-
-    response = HttpResponse(file, content_type="application/xlsx")
-    response["Content-Disposition"] = f'attachment; filename="{report.name}.xlsx"'
-    return response
+        response = HttpResponse(file, content_type="application/xlsx")
+        response["Content-Disposition"] = f'attachment; filename="{report.name}.xlsx"'
+        return response
