@@ -28,6 +28,7 @@ from reports.tasks import generate_report_task
 from rest_framework import viewsets
 from django.core.exceptions import PermissionDenied
 from .permissions import SellerPermission
+from rest_framework import permissions
 
 
 class LoginAPIView(APIView):
@@ -129,6 +130,7 @@ class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
 
 class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
     serializer_class = OrderItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
@@ -148,6 +150,7 @@ class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
 
 class NewReportViewSet(generics.CreateAPIView, mixins.CreateModelMixin, GenericViewSet):
     serializer_class = NewReportSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
