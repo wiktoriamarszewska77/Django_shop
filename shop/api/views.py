@@ -108,9 +108,12 @@ class ProductsSoldViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = OrderItemSerializer
 
     def get_queryset(self):
-        company = get_object_or_404(Company, user=self.request.user)
-        queryset = OrderItem.objects.filter(item__seller=company)
-        return queryset
+        if self.request.user.is_authenticated:
+            company = get_object_or_404(Company, user=self.request.user)
+            queryset = OrderItem.objects.filter(item__seller=company)
+            return queryset
+        else:
+            raise PermissionDenied("Authentication credentials were not provided.")
 
 
 class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
