@@ -64,12 +64,6 @@ class GetAllOrDetailProductsViewSet(
         return Response(serializer.data)
 
 
-class GetDetailProductAPIView(generics.RetrieveAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-    serializer_class = ProductSerializer
-    queryset = Product
-
-
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [SellerPermission]

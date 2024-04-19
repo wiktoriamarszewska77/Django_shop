@@ -11,6 +11,7 @@ from django.contrib.auth.models import User  # noqa
 from rest_framework.reverse import reverse  # noqa
 
 
+@pytest.mark.django_db(transaction=False)
 def test_unregistered_user_can_view_all_products(client, product):
     expected_response = [
         {
