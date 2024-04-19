@@ -12,6 +12,8 @@ from model_bakery import baker  # noqa
 from products.models import Product  # noqa
 from users.models import Company  # noqa
 from review.models import Review  # noqa
+from shipping.models import Shipping  # noqa
+from order.models import OrderItem, Order  # noqa
 from django.contrib.auth import get_user_model  # noqa
 
 User = get_user_model()  # noqa
@@ -53,3 +55,18 @@ def authenticated_user(client, user):
 def authenticated_company(client, company):
     client.force_authenticate(user=company.user)
     return company
+
+
+@pytest.fixture
+def shipping():
+    return baker.make(Shipping)
+
+
+@pytest.fixture
+def order(shipping):
+    return baker.make(Order, delivery=shipping)
+
+
+@pytest.fixture
+def order_item(order, product):
+    return baker.make(OrderItem, order=order, item=product)
