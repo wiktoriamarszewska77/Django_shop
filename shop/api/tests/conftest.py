@@ -14,6 +14,7 @@ from users.models import Company  # noqa
 from review.models import Review  # noqa
 from shipping.models import Shipping  # noqa
 from order.models import OrderItem, Order  # noqa
+from reports.models import Report  # noqa
 from django.contrib.auth import get_user_model  # noqa
 
 User = get_user_model()  # noqa
@@ -70,3 +71,8 @@ def order(user, shipping):
 @pytest.fixture
 def order_item(order, product):
     return baker.make(OrderItem, order=order, item=product)
+
+
+@pytest.fixture
+def reports(user):
+    return baker.make(Report, user=user)
