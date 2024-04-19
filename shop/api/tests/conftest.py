@@ -11,6 +11,10 @@ from rest_framework.test import APIClient  # noqa
 from model_bakery import baker  # noqa
 from products.models import Product  # noqa
 from users.models import Company  # noqa
+from review.models import Review  # noqa
+from django.contrib.auth import get_user_model  # noqa
+
+User = get_user_model()  # noqa
 
 
 @pytest.fixture
@@ -26,3 +30,14 @@ def company():
 @pytest.fixture
 def product(company):
     return baker.make(Product, seller=company)
+
+
+@pytest.fixture
+def user():
+    user = baker.make(User)
+    return user
+
+
+@pytest.fixture
+def review(product, user):
+    return baker.make(Review, product=product, user=user)
