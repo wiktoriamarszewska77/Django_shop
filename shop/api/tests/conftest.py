@@ -41,3 +41,15 @@ def user():
 @pytest.fixture
 def review(product, user):
     return baker.make(Review, product=product, user=user)
+
+
+@pytest.fixture
+def authenticated_user(client, user):
+    client.force_authenticate(user=user)
+    return user
+
+
+@pytest.fixture
+def authenticated_company(client, company):
+    client.force_authenticate(user=company.user)
+    return company
