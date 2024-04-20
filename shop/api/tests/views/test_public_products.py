@@ -43,6 +43,7 @@ def test_unregistered_user_can_view_all_products(client, product):
     assert response_data[0]["available"] == expected_response[0]["available"]
 
 
+@pytest.mark.django_db(transaction=False)
 def test_unregistered_user_can_view_detail_product(client, product):
     expected_response = {
         "seller": product.seller.id,

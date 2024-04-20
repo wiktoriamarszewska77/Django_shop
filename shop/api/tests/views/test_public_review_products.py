@@ -10,6 +10,7 @@ import pytest  # noqa
 from rest_framework.reverse import reverse  # noqa
 
 
+@pytest.mark.django_db(transaction=False)
 def test_unregistered_user_can_view_all_review_products(client, review):
     expected_response = [
         {
@@ -33,6 +34,7 @@ def test_unregistered_user_can_view_all_review_products(client, review):
     assert response_data[0]["rating"] == expected_response[0]["rating"]
 
 
+@pytest.mark.django_db(transaction=False)
 def test_unregistered_user_can_view_detail_review_product(client, review):
     expected_response = {
         "id": review.id,
