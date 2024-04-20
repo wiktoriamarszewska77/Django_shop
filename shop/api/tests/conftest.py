@@ -15,6 +15,7 @@ from review.models import Review  # noqa
 from shipping.models import Shipping  # noqa
 from order.models import OrderItem, Order  # noqa
 from reports.models import Report  # noqa
+from django.core.files.uploadedfile import SimpleUploadedFile  # noqa
 from django.contrib.auth import get_user_model  # noqa
 
 User = get_user_model()  # noqa
@@ -76,3 +77,23 @@ def order_item(order, product):
 @pytest.fixture
 def reports(user):
     return baker.make(Report, user=user)
+
+
+@pytest.fixture
+def sample_file_pdf(reports):
+    file_content = b"test content"
+    file = SimpleUploadedFile("test.pdf", file_content, content_type="application/pdf")
+    reports.file = file
+    reports.save()
+    return reports
+
+
+@pytest.fixture
+def sample_file_xlsx(reports):
+    file_content = b"test content"
+    file = SimpleUploadedFile(
+        "test.xlsx", file_content, content_type="application/xlsx"
+    )
+    reports.file = file
+    reports.save()
+    return reports
