@@ -13,6 +13,7 @@ def generate_report_task(
         report = Report.objects.get(id=report_id)
         orders = filter_orders_by_date(start_date, end_date, user_id)
 
+        print(data_parameters)
         sentry_sdk.set_context(
             "task_info",
             {
