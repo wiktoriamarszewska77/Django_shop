@@ -85,7 +85,9 @@ def sample_file_pdf(reports):
     file = SimpleUploadedFile("test.pdf", file_content, content_type="application/pdf")
     reports.file = file
     reports.save()
-    return reports
+    yield reports
+    reports.file.delete(save=False)
+    reports.delete()
 
 
 @pytest.fixture
@@ -96,4 +98,6 @@ def sample_file_xlsx(reports):
     )
     reports.file = file
     reports.save()
-    return reports
+    yield reports
+    reports.file.delete(save=False)
+    reports.delete()
