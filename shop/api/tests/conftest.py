@@ -16,6 +16,7 @@ from shipping.models import Shipping  # noqa
 from order.models import OrderItem, Order  # noqa
 from reports.models import Report  # noqa
 from django.core.files.uploadedfile import SimpleUploadedFile  # noqa
+from django.utils import timezone  # noqa
 from django.contrib.auth import get_user_model  # noqa
 
 User = get_user_model()  # noqa
@@ -101,3 +102,23 @@ def sample_file_xlsx(reports):
     yield reports
     reports.file.delete(save=False)
     reports.delete()
+
+
+@pytest.fixture
+def product_data():
+    return {
+        "seller": 1,
+        "name": "Test Product",
+        "brand": "Test Brand",
+        "category": "Test Category",
+        "price": 10.0,
+        "data_added": timezone.now(),
+        "description": "Test Description",
+        "stock_quantity": 100,
+        "available": True,
+    }
+
+
+@pytest.fixture
+def create_product(product_data):
+    return Product.objects.create(**product_data)
