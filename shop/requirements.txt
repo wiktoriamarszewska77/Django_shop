@@ -13,3 +13,10 @@ openpyxl
 djangorestframework
 sentry-sdk
 drf_spectacular
+pytest-django
+pytest
+factory_boy
+model-bakery
+localstack
+boto3
+django-storages

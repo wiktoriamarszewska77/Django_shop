@@ -16,16 +16,16 @@ from .views import (
     ProductsOrdered,
     NewReportViewSet,
     ReportsViewSet,
-    download_report_pdf,
-    download_report_xlsx,
+    DownloadReportPDF,
+    DownloadReportXLSX,
 )
 
 router = routers.DefaultRouter()
 router.register("actions-products", ProductViewSet, basename="actions-products")
 router.register(
-    "get-all-or-detail-products",
+    "get-products",
     GetAllOrDetailProductsViewSet,
-    basename="get-all-or-detail-products",
+    basename="get-products",
 )
 router.register("review", ReviewProductViewSet, basename="review")
 router.register(
@@ -41,12 +41,12 @@ urlpatterns = [
     path("loginup/", LoginAPIView.as_view(), name="loginup"),
     path(
         "download-report-pdf/<int:report_id>/",
-        download_report_pdf,
+        DownloadReportPDF.as_view(),
         name="download_report_pdf",
     ),
     path(
         "download-report-xlsx/<int:report_id>/",
-        download_report_xlsx,
+        DownloadReportXLSX.as_view(),
         name="download_report_xlsx",
     ),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),

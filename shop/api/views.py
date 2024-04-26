@@ -12,7 +12,6 @@ from api.serializers import (
     ReportSerializer,
 )
 from products.models import Product
-from rest_framework.permissions import BasePermission
 from users.models import Company
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from review.models import Review
@@ -21,13 +20,14 @@ from order.models import OrderItem, Order
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from reports.models import Report
-from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from reports.tasks import generate_report_task
 from rest_framework import viewsets
 from django.core.exceptions import PermissionDenied
+from .permissions import SellerPermission
+from rest_framework import permissions
 
 
 class LoginAPIView(APIView):
@@ -64,19 +64,6 @@ class GetAllOrDetailProductsViewSet(
         return Response(serializer.data)
 
 
-class GetDetailProductAPIView(generics.RetrieveAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-    serializer_class = ProductSerializer
-    queryset = Product
-
-
-class SellerPermission(BasePermission):
-    def has_permission(self, request, view):
-        if request.user.is_authenticated:
-            return Company.objects.filter(user=request.user).exists()
-        return False
-
-
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [SellerPermission]
@@ -95,7 +82,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         instance.delete()
 
     def get_serializer_class(self):
-        if self.action == "create" or self.action == "update":
+        if self.action in ["create", "update"]:
             return CreateProductSerializer
         return ProductSerializer
 
@@ -121,9 +108,12 @@ class ProductsSoldViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = OrderItemSerializer
 
     def get_queryset(self):
-        company = get_object_or_404(Company, user=self.request.user)
-        queryset = OrderItem.objects.filter(item__seller=company)
-        return queryset
+        if self.request.user.is_authenticated:
+            company = get_object_or_404(Company, user=self.request.user)
+            queryset = OrderItem.objects.filter(item__seller=company)
+            return queryset
+        else:
+            raise PermissionDenied("Authentication credentials were not provided.")
 
 
 class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
@@ -139,6 +129,7 @@ class UserProductsViewSet(mixins.ListModelMixin, GenericViewSet):
 
 class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
     serializer_class = OrderItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
@@ -158,6 +149,7 @@ class ProductsOrdered(mixins.ListModelMixin, GenericViewSet):
 
 class NewReportViewSet(generics.CreateAPIView, mixins.CreateModelMixin, GenericViewSet):
     serializer_class = NewReportSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -200,29 +192,33 @@ class ReportsViewSet(mixins.ListModelMixin, GenericViewSet):
             raise PermissionDenied("Authentication credentials were not provided.")
 
 
-@api_view(["GET"])
-def download_report_pdf(request, report_id):
-    try:
-        report = Report.objects.get(id=report_id)
-    except Report.DoesNotExist:
-        return Response({"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND)
+class DownloadReportPDF(APIView):
+    def get(self, request, report_id):
+        try:
+            report = Report.objects.get(id=report_id)
+        except Report.DoesNotExist:
+            return Response(
+                {"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND
+            )
 
-    file = report.file
+        file = report.file
 
-    response = HttpResponse(file, content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="{report.name}.pdf"'
-    return response
+        response = HttpResponse(file, content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="{report.name}.pdf"'
+        return response
 
 
-@api_view(["GET"])
-def download_report_xlsx(request, report_id):
-    try:
-        report = Report.objects.get(id=report_id)
-    except Report.DoesNotExist:
-        return Response({"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND)
+class DownloadReportXLSX(APIView):
+    def get(self, request, report_id):
+        try:
+            report = Report.objects.get(id=report_id)
+        except Report.DoesNotExist:
+            return Response(
+                {"error": "Report not found"}, status=status.HTTP_404_NOT_FOUND
+            )
 
-    file = report.file
+        file = report.file
 
-    response = HttpResponse(file, content_type="application/xlsx")
-    response["Content-Disposition"] = f'attachment; filename="{report.name}.xlsx"'
-    return response
+        response = HttpResponse(file, content_type="application/xlsx")
+        response["Content-Disposition"] = f'attachment; filename="{report.name}.xlsx"'
+        return response
