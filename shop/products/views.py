@@ -8,6 +8,9 @@ from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 from review.models import Review
 from django.db.models import Avg
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.contrib import messages
 
 
 class HomeView(TemplateView):
@@ -92,7 +95,7 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Product
     template_name = "add_product.html"
     fields = [
@@ -107,10 +110,17 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         "available",
     ]
 
+    def test_func(self):
+        return hasattr(self.request.user, "company")
+
     def form_valid(self, form):
         company = Company.objects.get(user=self.request.user)
         form.instance.seller = company
         return super().form_valid(form)
+
+    def handle_no_permission(self):
+        messages.info(self.request, "You are not authorized to access this page.")
+        return redirect(reverse_lazy("home"))
 
 
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

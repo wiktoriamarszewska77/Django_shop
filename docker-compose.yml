@@ -57,11 +57,8 @@ services:
       - "127.0.0.1:4566:4566"
       - "127.0.0.1:4510-4559:4510-4559"
     environment:
-      - DEBUG=${DEBUG:-0}
-      - USE_S3=TRUE
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - AWS_STORAGE_BUCKET_NAME=report-bucket
+      - DEBUG=1
+      - SERVICES=s3
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
