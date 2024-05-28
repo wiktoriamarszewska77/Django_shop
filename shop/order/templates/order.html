@@ -73,24 +73,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const deliveryRadio = document.querySelectorAll('input[name="delivery"]');
     const shippingInfo = document.getElementById('shipping-info');
     const totalAmount = document.getElementById('total-amount');
-    const freeDeliveryThreshold = 200.00;
+
 
     function calculateTotalAmount(shippingPrice) {
         const productsPrice = parseFloat("{{ basket.basket_total }}");
         const vatRate = 0.23;
         const shipping = parseFloat(shippingPrice);
 
-        let totalAmountValue;
 
-        if (productsPrice >= freeDeliveryThreshold) {
-            shippingInfo.textContent = '0.00';
-            totalAmountValue = productsPrice + (productsPrice * vatRate);
-        } else {
-            totalAmountValue = productsPrice + shipping + (productsPrice * vatRate);
-        }
+        let freeDeliveryThreshold;
 
-        totalAmount.textContent = totalAmountValue.toFixed(2);
+         if (deliveryRadio[0].checked && productsPrice >= 300) {
+        shippingInfo.textContent = '0.00';
+    } else if (deliveryRadio[0].checked) {
+        shippingInfo.textContent = '15.99';
+    } else if (deliveryRadio[1].checked && productsPrice >= 150) {
+        shippingInfo.textContent = '0.00';
+    } else if (deliveryRadio[1].checked) {
+        shippingInfo.textContent = '11.99';
+    } else if (deliveryRadio[2].checked && productsPrice >= 100) {
+        shippingInfo.textContent = '0.00';
+    } else if (deliveryRadio[2].checked) {
+        shippingInfo.textContent = '5.99';
     }
+
+    let totalAmountValue;
+
+    if (productsPrice >= freeDeliveryThreshold) {
+        totalAmountValue = productsPrice + (productsPrice * vatRate);
+    } else {
+        totalAmountValue = productsPrice + parseFloat(shippingInfo.textContent) + (productsPrice * vatRate);
+    }
+
+    totalAmount.textContent = totalAmountValue.toFixed(2);
+}
 
     deliveryRadio.forEach(function(radio) {
         radio.addEventListener('change', function() {
