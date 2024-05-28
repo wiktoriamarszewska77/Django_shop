@@ -41,7 +41,7 @@ Web application created based on the Django framework in Python. The application
 * Swagger/OpenAPI Documentation Generator for Django REST Framework,
 
 ## ⌛Status:
-The project is in its final phase. Application tests will be added soon.
+The project is finalized.
 
 ## 💿 Installation:
 
